@@ -1,5 +1,11 @@
 import os
+import sys
 from flask import Flask, render_template, request
+
+# Ensure backend modules are importable from any working directory
+BACKEND_DIR = os.path.dirname(os.path.abspath(__file__))
+if BACKEND_DIR not in sys.path:
+    sys.path.insert(0, BACKEND_DIR)
 
 from resume_parser import extract_text_from_pdf
 from skill_extractor import extract_skills
