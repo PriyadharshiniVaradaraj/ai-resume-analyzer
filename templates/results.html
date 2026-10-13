@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis Results | ResumeAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+    <div class="logo">
+        ✦ Resume<span>AI</span>
+    </div>
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#features">Features</a></li>
+        <li><a href="/#how">How It Works</a></li>
+        <li><a href="/#analyze">Upload Resume</a></li>
+    </ul>
+    <a href="/" class="nav-button">Analyze Another</a>
+</nav>
+
+<!-- ================= RESULTS CONTAINER ================= -->
+<div class="results-container">
+
+    <div class="results-header">
+        <div class="hero-badge">✨ AI ANALYSIS COMPLETE</div>
+        <h1>Resume Analysis Results</h1>
+        <p style="color: #6b7280;">Analysis completed for <strong>{{ filename }}</strong></p>
+    </div>
+
+    <div class="results-grid">
+
+        <!-- SCORE CARD -->
+        <div class="card score-card">
+            <h2>Resume Score</h2>
+            <div class="score-display">
+                <div class="big-score-circle">
+                    <span class="big-score-num">{{ score }}</span>
+                    <span class="big-score-max">OUT OF 100</span>
+                </div>
+                <p style="color: #4b5563; font-weight: 500;">
+                    {% if score >= 80 %}
+                        🌟 Excellent Resume Profile!
+                    {% elif score >= 60 %}
+                        👍 Good Profile - Minor areas to improve.
+                    {% else %}
+                        ⚠️ Needs Enhancement for better job matches.
+                    {% endif %}
+                </p>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #f3f4f6; margin: 20px 0;">
+
+            <h4 style="margin-bottom: 10px; color: #374151;">Section Breakdown:</h4>
+            <div class="checklist-grid">
+                <div class="check-item {{ 'pass' if education else 'fail' }}">
+                    {{ '✓' if education else '✗' }} Education
+                </div>
+                <div class="check-item {{ 'pass' if experience else 'fail' }}">
+                    {{ '✓' if experience else '✗' }} Experience
+                </div>
+                <div class="check-item {{ 'pass' if projects else 'fail' }}">
+                    {{ '✓' if projects else '✗' }} Projects
+                </div>
+                <div class="check-item {{ 'pass' if certifications else 'fail' }}">
+                    {{ '✓' if certifications else '✗' }} Certificates
+                </div>
+            </div>
+        </div>
+
+        <!-- SKILLS & GAP CARD -->
+        <div>
+            <div class="card">
+                <h2>Detected Skills</h2>
+                <p style="color: #6b7280; font-size: 14px; margin-bottom: 15px;">
+                    Skills identified from your resume text:
+                </p>
+                {% if skills %}
+                    {% for skill in skills %}
+                        <span class="skill-tag detected">✦ {{ skill | capitalize }}</span>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: #ef4444;">No standard tech skills detected in resume.</p>
+                {% endif %}
+            </div>
+
+            <div class="card">
+                <h2>Skill Gap Analysis</h2>
+                <p style="color: #6b7280; font-size: 14px; margin-bottom: 15px;">
+                    Comparison against top in-demand job requirements:
+                </p>
+
+                <h4 style="margin-bottom: 8px; color: #047857;">Skills You Have:</h4>
+                {% if matching_skills %}
+                    {% for skill in matching_skills %}
+                        <span class="skill-tag matched">✓ {{ skill | capitalize }}</span>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: #6b7280; font-size: 14px;">None detected yet.</p>
+                {% endif %}
+
+                <h4 style="margin: 15px 0 8px; color: #b45309;">Recommended Skills to Add:</h4>
+                {% if missing_skills %}
+                    {% for skill in missing_skills %}
+                        <span class="skill-tag missing">+ {{ skill | capitalize }}</span>
+                    {% endfor %}
+                {% else %}
+                    <p style="color: #059669; font-size: 14px;">Great job! You have all targeted core skills.</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RECOMMENDED JOBS -->
+    <div class="card">
+        <h2>Top Recommended Jobs</h2>
+        <p style="color: #6b7280; font-size: 14px; margin-bottom: 20px;">
+            Jobs matching your skills and experience:
+        </p>
+
+        {% if jobs %}
+            {% for job in jobs %}
+                <div class="job-card-styled">
+                    <div class="job-main">
+                        <h3>{{ job["job_title"] }}</h3>
+                        <div class="job-details">
+                            🏢 <strong>{{ job["company"] }}</strong> &nbsp;|&nbsp; 📍 {{ job["location"] }} &nbsp;|&nbsp; 💰 {{ job["salary"] }}
+                        </div>
+                        <div style="font-size: 13px; color: #4b5563;">
+                            <strong>Matched Skills:</strong> {{ job["matched_skills"] }}
+                        </div>
+                    </div>
+                    <div>
+                        <span class="job-badge">{{ job["match_score"] }}% Match</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p style="color: #6b7280;">No job recommendations found.</p>
+        {% endif %}
+    </div>
+
+    <div class="back-btn-container">
+        <a href="/" class="primary-btn">← Analyze Another Resume</a>
+    </div>
+
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+    <div class="footer-bottom">
+        © 2026 ResumeAI. AI Resume Analyzer & Job Recommendation System.
+    </div>
+</footer>
+
+</body>
+</html>

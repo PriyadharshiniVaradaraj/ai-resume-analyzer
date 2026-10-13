@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ResumeAI | AI Resume Analyzer</title>
+
+    <!-- IMPORTANT: CSS -->
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        ✦ Resume<span>AI</span>
+    </div>
+
+    <ul class="nav-links">
+
+        <li>
+            <a href="#home">Home</a>
+        </li>
+
+        <li>
+            <a href="#features">Features</a>
+        </li>
+
+        <li>
+            <a href="#how">How It Works</a>
+        </li>
+
+        <li>
+            <a href="#dashboard">Dashboard</a>
+        </li>
+
+        <li>
+            <a href="#analyze">Analyze Resume</a>
+        </li>
+
+    </ul>
+
+    <a href="#analyze" class="nav-button">
+        Get Started
+    </a>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            ✨ AI-POWERED CAREER ASSISTANT
+        </div>
+
+        <h1>
+            Your Resume.
+            <br>
+            <span>Your Future.</span>
+        </h1>
+
+        <p>
+            Transform your resume into your career roadmap.
+            Our AI analyzes your skills, calculates your
+            resume score and discovers jobs that match
+            your profile.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#analyze"
+               class="primary-btn">
+                Analyze My Resume →
+            </a>
+
+            <a href="#features"
+               class="secondary-btn">
+                Explore Features
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ANALYZE ================= -->
+
+<section class="analyze-section"
+         id="analyze">
+
+    <h2 class="section-title">
+        Analyze Your Resume
+    </h2>
+
+    <p class="section-subtitle">
+        Upload your PDF resume and let AI analyze your career profile.
+    </p>
+
+    <div class="upload-card">
+
+        <div class="upload-icon">
+            📄
+        </div>
+
+        <h3>
+            Upload Your Resume
+        </h3>
+
+        <p>
+            Upload a PDF file to get your resume score,
+            skills analysis and job recommendations.
+        </p>
+
+        <form action="/analyze"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <input
+                type="file"
+                id="fileInput"
+                name="resume"
+                accept=".pdf"
+                class="file-input"
+                required
+            >
+
+            <div id="fileName" style="display: none; margin-bottom: 15px; font-weight: bold; color: #4f46e5;"></div>
+
+            <br>
+
+            <button type="submit"
+                    class="analyze-btn">
+
+                Analyze Resume
+
+            </button>
+
+        </form>
+
+
+    </div>
+
+</section>
+
+
+<!-- ================= FEATURES ================= -->
+
+<section class="features"
+         id="features">
+
+    <h2 class="section-title">
+        Everything You Need
+    </h2>
+
+    <p class="section-subtitle">
+        Turn your resume into a complete career roadmap.
+    </p>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+
+            <div class="upload-icon">
+                📊
+            </div>
+
+            <h3>
+                Resume Score
+            </h3>
+
+            <p>
+                Get an AI-powered score based on your
+                resume content and structure.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="upload-icon">
+                🧠
+            </div>
+
+            <h3>
+                Skill Analysis
+            </h3>
+
+            <p>
+                Automatically identify your technical
+                and professional skills.
+            </p>
+
+        </div>
+
+
+        <div class="feature-card">
+
+            <div class="upload-icon">
+                💼
+            </div>
+
+            <h3>
+                Job Recommendations
+            </h3>
+
+            <p>
+                Discover jobs that match your skills
+                and experience.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STATISTICS ================= -->
+
+<section class="stats">
+
+    <div class="stats-container">
+
+        <div class="stat">
+
+            <h2>10K+</h2>
+
+            <p>
+                Resumes Analyzed
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>500+</h2>
+
+            <p>
+                Job Opportunities
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>95%</h2>
+
+            <p>
+                Matching Accuracy
+            </p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>24/7</h2>
+
+            <p>
+                AI Assistance
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="how-section"
+         id="how">
+
+    <div class="how-header">
+
+        <h2>
+            How ResumeAI Works
+        </h2>
+
+        <p>
+            Three simple steps to discover your career opportunities.
+        </p>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">
+                1
+            </div>
+
+            <h3>
+                Upload Resume
+            </h3>
+
+            <p>
+                Upload your resume in PDF format.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                2
+            </div>
+
+            <h3>
+                AI Analysis
+            </h3>
+
+            <p>
+                Our system extracts and analyzes
+                your skills and experience.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                3
+            </div>
+
+            <h3>
+                Get Recommendations
+            </h3>
+
+            <p>
+                Receive a resume score, skill gap
+                and recommended jobs.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section class="section"
+         id="dashboard">
+
+    <div class="section-header">
+
+        <div class="small-title">
+            AI DASHBOARD
+        </div>
+
+        <h2>
+            Your Resume Insights
+        </h2>
+
+        <p>
+            Understand how employers see your profile.
+        </p>
+
+    </div>
+
+
+    <div class="dashboard">
+
+        <div class="dashboard-grid">
+
+
+            <!-- SCORE -->
+
+            <div class="score-card">
+
+                <h3>
+                    Resume Score
+                </h3>
+
+                <div class="score-circle">
+
+                    <div class="score-inner">
+
+                        <div class="score-number">
+                            84
+                        </div>
+
+                        <div class="score-label">
+                            OUT OF 100
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <p>
+                    Your resume is performing well.
+                </p>
+
+            </div>
+
+
+            <!-- SKILLS -->
+
+            <div class="skills-card">
+
+                <h3>
+                    Detected Skills
+                </h3>
+
+                <p>
+                    Skills identified from your resume.
+                </p>
+
+                <div class="skills-list">
+
+                    <span class="skill">
+                        Python
+                    </span>
+
+                    <span class="skill">
+                        SQL
+                    </span>
+
+                    <span class="skill">
+                        Machine Learning
+                    </span>
+
+                    <span class="skill">
+                        Power BI
+                    </span>
+
+                    <span class="skill">
+                        AWS
+                    </span>
+
+                    <span class="skill">
+                        Excel
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- JOBS -->
+
+        <div class="jobs">
+
+            <h3>
+                Recommended Jobs
+            </h3>
+
+
+            <div class="job-card">
+
+                <div class="job-info">
+
+                    <h3>
+                        Data Analyst
+                    </h3>
+
+                    <p>
+                        ABC Technologies · Chennai
+                    </p>
+
+                </div>
+
+                <span class="match">
+                    94% Match
+                </span>
+
+            </div>
+
+
+            <div class="job-card">
+
+                <div class="job-info">
+
+                    <h3>
+                        Data Scientist
+                    </h3>
+
+                    <p>
+                        XYZ Solutions · Bangalore
+                    </p>
+
+                </div>
+
+                <span class="match">
+                    89% Match
+                </span>
+
+            </div>
+
+
+            <div class="job-card">
+
+                <div class="job-info">
+
+                    <h3>
+                        Machine Learning Engineer
+                    </h3>
+
+                    <p>
+                        AI Technologies · Hyderabad
+                    </p>
+
+                </div>
+
+                <span class="match">
+                    85% Match
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+    <h2>
+        Ready to Find Your Dream Job?
+    </h2>
+
+    <p>
+        Upload your resume and let AI guide your next career move.
+    </p>
+
+    <a href="#analyze"
+       class="cta-button">
+
+        Analyze My Resume →
+
+    </a>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-container">
+
+        <div class="footer-column">
+
+            <h3>
+                ✦ ResumeAI
+            </h3>
+
+            <p>
+                AI-powered resume analysis and intelligent
+                job recommendations for modern job seekers.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                Product
+            </h3>
+
+            <a href="#features">
+                Features
+            </a>
+
+            <a href="#how">
+                How It Works
+            </a>
+
+            <a href="#dashboard">
+                Dashboard
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h3>
+                Technology
+            </h3>
+
+            <p>Python</p>
+            <p>Flask</p>
+            <p>Machine Learning</p>
+            <p>Cloud Computing</p>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        © 2026 ResumeAI.
+        AI Resume Analyzer & Job Recommendation System.
+
+    </div>
+
+</footer>
+
+
+<!-- JAVASCRIPT -->
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
