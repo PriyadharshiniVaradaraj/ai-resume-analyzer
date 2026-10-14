@@ -2,640 +2,699 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ResumeAI | AI Resume Analyzer</title>
 
-    <!-- IMPORTANT: CSS -->
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
+    <!-- ================= NAVBAR ================= -->
 
-<nav class="navbar">
+    <nav class="navbar">
 
-    <div class="logo">
-        ✦ Resume<span>AI</span>
-    </div>
-
-    <ul class="nav-links">
-
-        <li>
-            <a href="#home">Home</a>
-        </li>
-
-        <li>
-            <a href="#features">Features</a>
-        </li>
-
-        <li>
-            <a href="#how">How It Works</a>
-        </li>
-
-        <li>
-            <a href="#dashboard">Dashboard</a>
-        </li>
-
-        <li>
-            <a href="#analyze">Analyze Resume</a>
-        </li>
-
-    </ul>
-
-    <a href="#analyze" class="nav-button">
-        Get Started
-    </a>
-
-</nav>
-
-
-<!-- ================= HERO ================= -->
-
-<section class="hero" id="home">
-
-    <div class="hero-content">
-
-        <div class="hero-badge">
-            ✨ AI-POWERED CAREER ASSISTANT
+        <div class="logo">
+            ✦ Resume<span>AI</span>
         </div>
 
-        <h1>
-            Your Resume.
-            <br>
-            <span>Your Future.</span>
-        </h1>
+        <ul class="nav-links">
 
-        <p>
-            Transform your resume into your career roadmap.
-            Our AI analyzes your skills, calculates your
-            resume score and discovers jobs that match
-            your profile.
-        </p>
+            <li>
+                <a href="#home">Home</a>
+            </li>
 
-        <div class="hero-buttons">
+            <li>
+                <a href="#features">Features</a>
+            </li>
 
-            <a href="#analyze"
-               class="primary-btn">
-                Analyze My Resume →
-            </a>
+            <li>
+                <a href="#how">How It Works</a>
+            </li>
 
-            <a href="#features"
-               class="secondary-btn">
-                Explore Features
-            </a>
+            <li>
+                <a href="#dashboard">Dashboard</a>
+            </li>
 
-        </div>
+            <li>
+                <a href="#analyze">Analyze Resume</a>
+            </li>
 
-    </div>
+        </ul>
 
-</section>
+        <a href="#analyze" class="nav-button">
+            Get Started
+        </a>
 
-
-<!-- ================= ANALYZE ================= -->
-
-<section class="analyze-section"
-         id="analyze">
-
-    <h2 class="section-title">
-        Analyze Your Resume
-    </h2>
-
-    <p class="section-subtitle">
-        Upload your PDF resume and let AI analyze your career profile.
-    </p>
-
-    <div class="upload-card">
-
-        <div class="upload-icon">
-            📄
-        </div>
-
-        <h3>
-            Upload Your Resume
-        </h3>
-
-        <p>
-            Upload a PDF file to get your resume score,
-            skills analysis and job recommendations.
-        </p>
-
-        <form action="/analyze"
-              method="POST"
-              enctype="multipart/form-data">
-
-            <input
-                type="file"
-                id="fileInput"
-                name="resume"
-                accept=".pdf"
-                class="file-input"
-                required
-            >
-
-            <div id="fileName" style="display: none; margin-bottom: 15px; font-weight: bold; color: #4f46e5;"></div>
-
-            <br>
-
-            <button type="submit"
-                    class="analyze-btn">
-
-                Analyze Resume
-
-            </button>
-
-        </form>
+    </nav>
 
 
-    </div>
+    <!-- ================= HERO ================= -->
 
-</section>
+    <section class="hero" id="home">
 
+        <div class="hero-content">
 
-<!-- ================= FEATURES ================= -->
-
-<section class="features"
-         id="features">
-
-    <h2 class="section-title">
-        Everything You Need
-    </h2>
-
-    <p class="section-subtitle">
-        Turn your resume into a complete career roadmap.
-    </p>
-
-    <div class="feature-grid">
-
-        <div class="feature-card">
-
-            <div class="upload-icon">
-                📊
+            <div class="hero-badge">
+                ✨ AI-POWERED CAREER ASSISTANT
             </div>
 
-            <h3>
-                Resume Score
-            </h3>
+            <h1>
+                Your Resume.
+                <br>
+                <span>Your Future.</span>
+            </h1>
 
             <p>
-                Get an AI-powered score based on your
-                resume content and structure.
+                Transform your resume into your career roadmap.
+                Our AI analyzes your skills, calculates your
+                resume score and discovers jobs that match
+                your profile.
             </p>
 
-        </div>
+            <div class="hero-buttons">
 
+                <a href="#analyze" class="primary-btn">
+                    Analyze My Resume →
+                </a>
 
-        <div class="feature-card">
+                <a href="#features" class="secondary-btn">
+                    Explore Features
+                </a>
 
-            <div class="upload-icon">
-                🧠
             </div>
 
-            <h3>
-                Skill Analysis
-            </h3>
-
-            <p>
-                Automatically identify your technical
-                and professional skills.
-            </p>
-
         </div>
 
-
-        <div class="feature-card">
-
-            <div class="upload-icon">
-                💼
-            </div>
-
-            <h3>
-                Job Recommendations
-            </h3>
-
-            <p>
-                Discover jobs that match your skills
-                and experience.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
+    </section>
 
 
-<!-- ================= STATISTICS ================= -->
+    <!-- ================= ANALYZE ================= -->
 
-<section class="stats">
+    <section class="analyze-section" id="analyze">
 
-    <div class="stats-container">
-
-        <div class="stat">
-
-            <h2>10K+</h2>
-
-            <p>
-                Resumes Analyzed
-            </p>
-
-        </div>
-
-
-        <div class="stat">
-
-            <h2>500+</h2>
-
-            <p>
-                Job Opportunities
-            </p>
-
-        </div>
-
-
-        <div class="stat">
-
-            <h2>95%</h2>
-
-            <p>
-                Matching Accuracy
-            </p>
-
-        </div>
-
-
-        <div class="stat">
-
-            <h2>24/7</h2>
-
-            <p>
-                AI Assistance
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= HOW IT WORKS ================= -->
-
-<section class="how-section"
-         id="how">
-
-    <div class="how-header">
-
-        <h2>
-            How ResumeAI Works
+        <h2 class="section-title">
+            Analyze Your Resume
         </h2>
 
-        <p>
-            Three simple steps to discover your career opportunities.
+        <p class="section-subtitle">
+            Upload your PDF resume and let AI analyze your career profile.
         </p>
 
-    </div>
+        <div class="upload-card">
 
-
-    <div class="steps">
-
-        <div class="step">
-
-            <div class="step-number">
-                1
+            <div class="upload-icon">
+                📄
             </div>
 
             <h3>
-                Upload Resume
+                Upload Your Resume
             </h3>
 
             <p>
-                Upload your resume in PDF format.
+                Upload a PDF file to get your resume score,
+                skills analysis and job recommendations.
             </p>
 
-        </div>
+            <form action="/analyze" method="POST" enctype="multipart/form-data">
 
+                <input type="file" id="fileInput" name="resume" accept=".pdf" class="file-input" required>
 
-        <div class="step">
+                <div id="fileName" style="display: none; margin-bottom: 15px; font-weight: bold; color: #4f46e5;"></div>
 
-            <div class="step-number">
-                2
-            </div>
+                <br>
 
-            <h3>
-                AI Analysis
-            </h3>
+                <button type="submit" class="analyze-btn">
 
-            <p>
-                Our system extracts and analyzes
-                your skills and experience.
-            </p>
+                    Analyze Resume
 
-        </div>
+                </button>
 
+            </form>
 
-        <div class="step">
-
-            <div class="step-number">
-                3
-            </div>
-
-            <h3>
-                Get Recommendations
-            </h3>
-
-            <p>
-                Receive a resume score, skill gap
-                and recommended jobs.
-            </p>
 
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 
-<!-- ================= DASHBOARD ================= -->
+    <!-- ================= FEATURES ================= -->
 
-<section class="section"
-         id="dashboard">
+    <section class="features" id="features">
 
-    <div class="section-header">
-
-        <div class="small-title">
-            AI DASHBOARD
-        </div>
-
-        <h2>
-            Your Resume Insights
+        <h2 class="section-title">
+            Everything You Need
         </h2>
 
-        <p>
-            Understand how employers see your profile.
+        <p class="section-subtitle">
+            Turn your resume into a complete career roadmap.
         </p>
 
-    </div>
+        <div class="feature-grid">
 
+            <div class="feature-card">
 
-    <div class="dashboard">
-
-        <div class="dashboard-grid">
-
-
-            <!-- SCORE -->
-
-            <div class="score-card">
+                <div class="upload-icon">
+                    📊
+                </div>
 
                 <h3>
                     Resume Score
                 </h3>
 
-                <div class="score-circle">
-
-                    <div class="score-inner">
-
-                        <div class="score-number">
-                            84
-                        </div>
-
-                        <div class="score-label">
-                            OUT OF 100
-                        </div>
-
-                    </div>
-
-                </div>
-
                 <p>
-                    Your resume is performing well.
+                    Get an AI-powered score based on your
+                    resume content and structure.
                 </p>
 
             </div>
 
 
-            <!-- SKILLS -->
+            <div class="feature-card">
 
-            <div class="skills-card">
+                <div class="upload-icon">
+                    🧠
+                </div>
 
                 <h3>
-                    Detected Skills
+                    Skill Analysis
                 </h3>
 
                 <p>
-                    Skills identified from your resume.
+                    Automatically identify your technical
+                    and professional skills.
                 </p>
 
-                <div class="skills-list">
+            </div>
 
-                    <span class="skill">
-                        Python
-                    </span>
 
-                    <span class="skill">
-                        SQL
-                    </span>
+            <div class="feature-card">
 
-                    <span class="skill">
-                        Machine Learning
-                    </span>
-
-                    <span class="skill">
-                        Power BI
-                    </span>
-
-                    <span class="skill">
-                        AWS
-                    </span>
-
-                    <span class="skill">
-                        Excel
-                    </span>
-
+                <div class="upload-icon">
+                    💼
                 </div>
+
+                <h3>
+                    Job Recommendations
+                </h3>
+
+                <p>
+                    Discover jobs that match your skills
+                    and experience.
+                </p>
 
             </div>
 
         </div>
 
-
-        <!-- JOBS -->
-
-        <div class="jobs">
-
-            <h3>
-                Recommended Jobs
-            </h3>
+    </section>
 
 
-            <div class="job-card">
+    <!-- ================= STATISTICS ================= -->
 
-                <div class="job-info">
+    <section class="stats">
 
-                    <h3>
-                        Data Analyst
-                    </h3>
+        <div class="stats-container">
 
-                    <p>
-                        ABC Technologies · Chennai
-                    </p>
+            <div class="stat">
 
-                </div>
+                <h2>10K+</h2>
 
-                <span class="match">
-                    94% Match
-                </span>
+                <p>
+                    Resumes Analyzed
+                </p>
 
             </div>
 
 
-            <div class="job-card">
+            <div class="stat">
 
-                <div class="job-info">
+                <h2>500+</h2>
 
-                    <h3>
-                        Data Scientist
-                    </h3>
-
-                    <p>
-                        XYZ Solutions · Bangalore
-                    </p>
-
-                </div>
-
-                <span class="match">
-                    89% Match
-                </span>
+                <p>
+                    Job Opportunities
+                </p>
 
             </div>
 
 
-            <div class="job-card">
+            <div class="stat">
 
-                <div class="job-info">
+                <h2>95%</h2>
 
-                    <h3>
-                        Machine Learning Engineer
-                    </h3>
+                <p>
+                    Matching Accuracy
+                </p>
 
-                    <p>
-                        AI Technologies · Hyderabad
-                    </p>
+            </div>
 
-                </div>
 
-                <span class="match">
-                    85% Match
-                </span>
+            <div class="stat">
+
+                <h2>24/7</h2>
+
+                <p>
+                    AI Assistance
+                </p>
 
             </div>
 
         </div>
 
-    </div>
-
-</section>
+    </section>
 
 
-<!-- ================= CTA ================= -->
+    <!-- ================= HOW IT WORKS ================= -->
+    <section class="py-16 px-6 bg-slate-50">
+        <div class="max-w-6xl mx-auto text-center">
 
-<section class="cta">
+            <!-- Section Header -->
+            <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">How ResumeAI Works</h2>
+            <p class="mt-2 text-lg text-slate-600">Three simple steps to discover your career opportunities.</p>
 
-    <h2>
-        Ready to Find Your Dream Job?
-    </h2>
+            <!-- Steps Grid -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
 
-    <p>
-        Upload your resume and let AI guide your next career move.
-    </p>
+                <!-- Step 1 -->
+                <div
+                    class="relative bg-white p-8 rounded-2xl shadow-sm border border-slate-200 transition-all hover:shadow-md hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-6">
+                        <div
+                            class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step
+                            01</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900">Upload Resume</h3>
+                    <p class="mt-2 text-slate-600 text-sm leading-relaxed">Upload your resume securely in PDF format for
+                        instant parsing.</p>
+                </div>
 
-    <a href="#analyze"
-       class="cta-button">
+                <!-- Step 2 -->
+                <div
+                    class="relative bg-white p-8 rounded-2xl shadow-sm border border-slate-200 transition-all hover:shadow-md hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-6">
+                        <div
+                            class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step
+                            02</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900">AI Analysis</h3>
+                    <p class="mt-2 text-slate-600 text-sm leading-relaxed">Our advanced models extract and analyze your
+                        core skills, experience, and formatting.</p>
+                </div>
 
-        Analyze My Resume →
+                <!-- Step 3 -->
+                <div
+                    class="relative bg-white p-8 rounded-2xl shadow-sm border border-slate-200 transition-all hover:shadow-md hover:-translate-y-1">
+                    <div class="flex items-center justify-between mb-6">
+                        <div
+                            class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-lg">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                            </svg>
+                        </div>
+                        <span
+                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step
+                            03</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900">Get Recommendations</h3>
+                    <p class="mt-2 text-slate-600 text-sm leading-relaxed">Receive a detailed resume score, critical
+                        skill gaps, and custom-matched job opportunities.</p>
+                </div>
 
-    </a>
+            </div>
+        </div>
+    </section>
 
-</section>
 
 
-<!-- ================= FOOTER ================= -->
+    <!-- ================= DASHBOARD ================= -->
 
-<footer>
+    <section class="section" id="dashboard">
 
-    <div class="footer-container">
+        <div class="section-header">
 
-        <div class="footer-column">
+            <div class="small-title">
+                AI DASHBOARD
+            </div>
 
-            <h3>
-                ✦ ResumeAI
-            </h3>
+            <h2>
+                Your Resume Insights
+            </h2>
 
             <p>
-                AI-powered resume analysis and intelligent
-                job recommendations for modern job seekers.
+                Understand how employers see your profile.
             </p>
 
         </div>
 
 
-        <div class="footer-column">
+        <div class="dashboard">
 
-            <h3>
-                Product
-            </h3>
+            <div class="dashboard-grid">
 
-            <a href="#features">
-                Features
-            </a>
 
-            <a href="#how">
-                How It Works
-            </a>
+                <!-- SCORE -->
 
-            <a href="#dashboard">
-                Dashboard
-            </a>
+                <div class="score-card">
+
+                    <h3>
+                        Resume Score
+                    </h3>
+
+                    <div class="score-circle">
+
+                        <div class="score-inner">
+
+                            <div class="score-number">
+                                84
+                            </div>
+
+                            <div class="score-label">
+                                OUT OF 100
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Your resume is performing well.
+                    </p>
+
+                </div>
+
+
+                <!-- SKILLS -->
+
+                <div class="skills-card">
+
+                    <h3>
+                        Detected Skills
+                    </h3>
+
+                    <p>
+                        Skills identified from your resume.
+                    </p>
+
+                    <div class="skills-list">
+
+                        <span class="skill">
+                            Python
+                        </span>
+
+                        <span class="skill">
+                            SQL
+                        </span>
+
+                        <span class="skill">
+                            Machine Learning
+                        </span>
+
+                        <span class="skill">
+                            Power BI
+                        </span>
+
+                        <span class="skill">
+                            AWS
+                        </span>
+
+                        <span class="skill">
+                            Excel
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- JOBS -->
+
+            <div class="jobs">
+
+                <h3>
+                    Recommended Jobs
+                </h3>
+
+
+                <div class="job-card">
+
+                    <div class="job-info">
+
+                        <h3>
+                            Data Analyst
+                        </h3>
+
+                        <p>
+                            ABC Technologies · Chennai
+                        </p>
+
+                    </div>
+
+                    <span class="match">
+                        94% Match
+                    </span>
+
+                </div>
+
+
+                <div class="job-card">
+
+                    <div class="job-info">
+
+                        <h3>
+                            Data Scientist
+                        </h3>
+
+                        <p>
+                            XYZ Solutions · Bangalore
+                        </p>
+
+                    </div>
+
+                    <span class="match">
+                        89% Match
+                    </span>
+
+                </div>
+
+
+                <div class="job-card">
+
+                    <div class="job-info">
+
+                        <h3>
+                            Machine Learning Engineer
+                        </h3>
+
+                        <p>
+                            AI Technologies · Hyderabad
+                        </p>
+
+                    </div>
+
+                    <span class="match">
+                        85% Match
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="cta">
+
+        <h2>
+            Ready to Find Your Dream Job?
+        </h2>
+
+        <p>
+            Upload your resume and let AI guide your next career move.
+        </p>
+
+        <a href="#analyze" class="cta-button">
+
+            Analyze My Resume →
+
+        </a>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <div class="footer-container">
+
+            <div class="footer-column">
+
+                <h3>
+                    ✦ ResumeAI
+                </h3>
+
+                <p>
+                    AI-powered resume analysis and intelligent
+                    job recommendations for modern job seekers.
+                </p>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    Product
+                </h3>
+
+                <a href="#features">
+                    Features
+                </a>
+
+                <a href="#how">
+                    How It Works
+                    <!-- How It Works Section -->
+                    <section class="py-16 px-6 bg-slate-50">
+                        <div class="max-w-6xl mx-auto text-center">
+
+                            <!-- Section Header -->
+                            <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">How ResumeAI Works</h2>
+                            <p class="mt-2 text-lg text-slate-600">Three simple steps to discover your career
+                                opportunities.</p>
+
+                            <!-- Steps Grid -->
+                            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+
+                                <!-- Step 1 -->
+                                <div
+                                    class="relative bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-all hover:shadow-md hover:-translate-y-1">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div
+                                            class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-lg">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                            </svg>
+                                        </div>
+                                        <span
+                                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step
+                                            01</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-slate-900">Upload Resume</h3>
+                                    <p class="mt-2 text-slate-600 text-sm leading-relaxed">Upload your resume securely
+                                        in PDF format for instant parsing.</p>
+                                </div>
+
+                                <!-- Step 2 -->
+                                <div
+                                    class="relative bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-all hover:shadow-md hover:-translate-y-1">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div
+                                            class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-lg">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <span
+                                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step
+                                            02</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-slate-900">AI Analysis</h3>
+                                    <p class="mt-2 text-slate-600 text-sm leading-relaxed">Our advanced models extract
+                                        and analyze your core skills, experience, and formatting.</p>
+                                </div>
+
+                                <!-- Step 3 -->
+                                <div
+                                    class="relative bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-all hover:shadow-md hover:-translate-y-1">
+                                    <div class="flex items-center justify-between mb-6">
+                                        <div
+                                            class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-lg">
+                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                            </svg>
+                                        </div>
+                                        <span
+                                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step
+                                            03</span>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-slate-900">Get Recommendations</h3>
+                                    <p class="mt-2 text-slate-600 text-sm leading-relaxed">Receive a detailed resume
+                                        score, critical skill gaps, and custom-matched job opportunities.</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                </a>
+
+                <a href="#dashboard">
+                    Dashboard
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    Technology
+                </h3>
+
+                <p>Python</p>
+                <p>Flask</p>
+                <p>Machine Learning</p>
+                <p>Cloud Computing</p>
+
+            </div>
 
         </div>
 
 
-        <div class="footer-column">
+        <div class="footer-bottom">
 
-            <h3>
-                Technology
-            </h3>
-
-            <p>Python</p>
-            <p>Flask</p>
-            <p>Machine Learning</p>
-            <p>Cloud Computing</p>
+            © 2026 ResumeAI.
+            AI Resume Analyzer & Job Recommendation System.
 
         </div>
 
-    </div>
+    </footer>
 
 
-    <div class="footer-bottom">
+    <!-- JAVASCRIPT -->
 
-        © 2026 ResumeAI.
-        AI Resume Analyzer & Job Recommendation System.
-
-    </div>
-
-</footer>
-
-
-<!-- JAVASCRIPT -->
-
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 
