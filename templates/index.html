@@ -18,63 +18,27 @@
     <!-- ================= NAVBAR ================= -->
 
     <nav class="navbar">
-
-        <div class="logo">
-            ✦ Resume<span>AI</span>
-        </div>
-
-        <ul class="nav-links">
-
-
-                <a href="#home">Home</a>
-            </li>
-
-
-                <a href="#features">Features</a>
-            </li>
-
-
-                <a href="#how">How It Works</a>
-            </li>
-
-
-                <a href="#dashboard">Dashboard</a>
-            </li>
-
-
-                <a href="#analyze">Analyze Resume</a>
-            </li>
-
-
-                <a href="{{ url_for('history') }}">My History</a>
-            </li>
-
-
-                <a href="{{ url_for('applications') }}">My Applications</a>
-            </li>
-
-            
-
-
-
-
-                <a href="{{ url_for('auth.logout') }}">Logout</a>
-            </li>
-
+        <a href="#home" class="logo">
+            <span class="logo-spark">✦</span> Resume<span>AI</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#how">How It Works</a></li>
+            <li><a href="{{ url_for('history') }}">My History</a></li>
+            <li><a href="{{ url_for('applications') }}">My Applications</a></li>
         </ul>
-
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="{{ url_for('history') }}" class="nav-button" style="background: linear-gradient(135deg, #1f3a5f, #1e8080);">
-                My History
+        <div class="nav-actions">
+            <a href="#analyze" class="nav-cta-btn">
+                <span>✦</span> Analyze Resume
             </a>
-            <a href="{{ url_for('applications') }}" class="nav-button" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">
-                My Applications
-            </a>
-            <a href="{{ url_for('auth.logout') }}" class="nav-button" style="background: #ef4444;">
+            <a href="{{ url_for('auth.logout') }}" class="nav-logout-btn" title="Sign out">
                 Logout
             </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
         </div>
-
     </nav>
 
 
@@ -295,7 +259,7 @@
 
 
     <!-- ================= HOW IT WORKS ================= -->
-    <section class="py-16 px-6 bg-slate-50">
+    <section class="py-16 px-6 bg-slate-50" id="how">
         <div class="max-w-6xl mx-auto text-center">
 
             <!-- Section Header -->
@@ -604,84 +568,6 @@
 
                 <a href="#how">
                     How It Works
-                    <!-- How It Works Section -->
-                    <section class="py-16 px-6 bg-slate-50">
-                        <div class="max-w-6xl mx-auto text-center">
-
-                            <!-- Section Header -->
-                            <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">How ResumeAI Works</h2>
-                            <p class="mt-2 text-lg text-slate-600">Three simple steps to discover your career
-                                opportunities.</p>
-
-                            <!-- Steps Grid -->
-                            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
-
-                                <!-- Step 1 -->
-                                <div
-                                    class="relative bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-all hover:shadow-md hover:-translate-y-1">
-                                    <div class="flex items-center justify-between mb-6">
-                                        <div
-                                            class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-lg">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                                            </svg>
-                                        </div>
-                                        <span
-                                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step
-                                            01</span>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-slate-900">Upload Resume</h3>
-                                    <p class="mt-2 text-slate-600 text-sm leading-relaxed">Upload your resume securely
-                                        in PDF format for instant parsing.</p>
-                                </div>
-
-                                <!-- Step 2 -->
-                                <div
-                                    class="relative bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-all hover:shadow-md hover:-translate-y-1">
-                                    <div class="flex items-center justify-between mb-6">
-                                        <div
-                                            class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-lg">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                            </svg>
-                                        </div>
-                                        <span
-                                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step
-                                            02</span>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-slate-900">AI Analysis</h3>
-                                    <p class="mt-2 text-slate-600 text-sm leading-relaxed">Our advanced models extract
-                                        and analyze your core skills, experience, and formatting.</p>
-                                </div>
-
-                                <!-- Step 3 -->
-                                <div
-                                    class="relative bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-all hover:shadow-md hover:-translate-y-1">
-                                    <div class="flex items-center justify-between mb-6">
-                                        <div
-                                            class="w-12 h-12 flex items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 font-bold text-lg">
-                                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                                            </svg>
-                                        </div>
-                                        <span
-                                            class="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Step
-                                            03</span>
-                                    </div>
-                                    <h3 class="text-xl font-bold text-slate-900">Get Recommendations</h3>
-                                    <p class="mt-2 text-slate-600 text-sm leading-relaxed">Receive a detailed resume
-                                        score, critical skill gaps, and custom-matched job opportunities.</p>
-                                </div>
-
-                            </div>
-                        </div>
-                    </section>
                 </a>
 
                 <a href="#dashboard">
