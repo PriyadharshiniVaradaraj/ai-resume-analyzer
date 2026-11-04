@@ -33,11 +33,14 @@ def get_conn():
 def _try(conn, cur, sql):
     try:
         cur.execute(sql); conn.commit()
-    except Exception:
+    except Exception as e:
         conn.rollback()
+        print("DB init note:", e, flush=True)
 
 def init_auth_table():
     conn = get_conn(); cur = conn.cursor()
+    if DATABASE_URL:
+        cur.execute("SET lock_timeout = '5s'")
     pk = "SERIAL PRIMARY KEY" if DATABASE_URL else "INTEGER PRIMARY KEY AUTOINCREMENT"
     cur.execute(f"CREATE TABLE IF NOT EXISTS users (id {pk}, name TEXT, email TEXT)")
     conn.commit()
@@ -56,6 +59,8 @@ class User(UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     conn = get_conn(); cur = conn.cursor()
+    if DATABASE_URL:
+        cur.execute("SET lock_timeout = '5s'")
     cur.execute(f"SELECT id, name, email, is_admin FROM users WHERE id = {PH}", (user_id,))
     row = cur.fetchone(); conn.close()
     return User(*row) if row else None
@@ -63,6 +68,8 @@ def load_user(user_id):
 # ---------- login activity log ----------
 def start_log(user_id):
     conn = get_conn(); cur = conn.cursor()
+    if DATABASE_URL:
+        cur.execute("SET lock_timeout = '5s'")
     t = now_ist()
     sql = f"INSERT INTO login_log (user_id, login_time, last_seen) VALUES ({PH},{PH},{PH})"
     if DATABASE_URL:
@@ -76,6 +83,8 @@ def start_log(user_id):
 
 def end_log(log_id):
     conn = get_conn(); cur = conn.cursor()
+    if DATABASE_URL:
+        cur.execute("SET lock_timeout = '5s'")
     t = now_ist()
     cur.execute(f"UPDATE login_log SET logout_time = {PH}, last_seen = {PH} "
                 f"WHERE id = {PH} AND logout_time IS NULL", (t, t, int(log_id)))
@@ -88,6 +97,8 @@ def track_activity():
     log_id = session.get("log_id")
     if log_id and current_user.is_authenticated:
         conn = get_conn(); cur = conn.cursor()
+    if DATABASE_URL:
+        cur.execute("SET lock_timeout = '5s'")
         cur.execute(f"UPDATE login_log SET last_seen = {PH} WHERE id = {PH}", (now_ist(), int(log_id)))
         conn.commit(); conn.close()
 
@@ -102,6 +113,8 @@ def register():
             flash("Password must be at least 8 characters.")
             return render_template("register.html")
         conn = get_conn(); cur = conn.cursor()
+    if DATABASE_URL:
+        cur.execute("SET lock_timeout = '5s'")
         cur.execute(f"SELECT id FROM users WHERE email = {PH} AND password_hash IS NOT NULL", (email,))
         if cur.fetchone():
             conn.close(); flash("This email is already registered.")
@@ -118,6 +131,8 @@ def login():
     if request.method == "POST":
         email = request.form["email"].strip().lower()
         conn = get_conn(); cur = conn.cursor()
+    if DATABASE_URL:
+        cur.execute("SET lock_timeout = '5s'")
         cur.execute(f"SELECT id, name, email, password_hash, is_admin FROM users "
                     f"WHERE email = {PH} AND password_hash IS NOT NULL", (email,))
         row = cur.fetchone(); conn.close()
@@ -173,6 +188,8 @@ def admin_logout():
 @admin_required
 def admin_dashboard():
     conn = get_conn(); cur = conn.cursor()
+    if DATABASE_URL:
+        cur.execute("SET lock_timeout = '5s'")
     cur.execute("SELECT l.id, u.name, u.email, l.login_time, l.last_seen, l.logout_time "
                 "FROM login_log l JOIN users u ON u.id = l.user_id ORDER BY l.id DESC LIMIT 200")
     rows = cur.fetchall()
