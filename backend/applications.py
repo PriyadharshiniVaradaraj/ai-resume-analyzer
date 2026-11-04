@@ -10,6 +10,12 @@ try:
 except ModuleNotFoundError:
     from backend.auth import get_conn, PH, DATABASE_URL
 
+def _fmt_dt(val):
+    """Format a datetime object or string for display (handles psycopg2 datetime)."""
+    if hasattr(val, "strftime"):
+        return val.strftime("%Y-%m-%d %H:%M")
+    return str(val) if val else ""
+
 def init_applications_table():
     conn = get_conn(); cur = conn.cursor()
     pk = "SERIAL PRIMARY KEY" if DATABASE_URL else "INTEGER PRIMARY KEY AUTOINCREMENT"
@@ -43,4 +49,4 @@ def get_applications(user_id):
                 f"WHERE user_id = {PH} ORDER BY id DESC", (int(user_id),))
     rows = cur.fetchall(); conn.close()
     return [{"id": r[0], "job_title": r[1], "company": r[2], "apply_url": r[3],
-             "status": r[4], "applied_at": r[5]} for r in rows]
+             "status": r[4], "applied_at": _fmt_dt(r[5])} for r in rows]

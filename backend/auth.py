@@ -13,6 +13,8 @@ login_manager = LoginManager()
 login_manager.login_view = "auth.login"
 
 DATABASE_URL = os.environ.get("DATABASE_URL")
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 SQLITE_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "jobs.db")
 PH = "%s" if DATABASE_URL else "?"
 
@@ -40,6 +42,7 @@ def get_conn():
             cur.execute("SET lock_timeout = '5s'")
             conn.commit()
         except Exception as e:
+            conn.rollback()
             print("DB lock_timeout error:", e, flush=True)
         return conn
     return sqlite3.connect(SQLITE_PATH)
