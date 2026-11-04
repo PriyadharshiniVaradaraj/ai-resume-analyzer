@@ -33,7 +33,7 @@ app = Flask(
 
 # Secret key for sessions & CSRF protection
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "resume-analyzer-secret-key-12345")
-app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
+app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(days=7)
 
 # SESSION_COOKIE_SECURE must only be True when served over HTTPS.
 # On Render, the RENDER env var is automatically set.
@@ -42,6 +42,9 @@ app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SECURE=IS_PRODUCTION,
     SESSION_COOKIE_SAMESITE="Lax",
+    REMEMBER_COOKIE_HTTPONLY=True,
+    REMEMBER_COOKIE_SECURE=IS_PRODUCTION,
+    REMEMBER_COOKIE_DURATION=timedelta(days=30),
     WTF_CSRF_SSL_STRICT=False,          # allow CSRF token over HTTP in dev
 )
 

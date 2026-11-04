@@ -12,7 +12,10 @@ auth = Blueprint("auth", __name__)
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
 
-DATABASE_URL = os.environ.get("DATABASE_URL")
+# Permanent Cloud Database (Supabase PostgreSQL) fallback so Render redeploy never loses accounts
+SUPABASE_DATABASE_URL = "postgresql://postgres.vxpdwsfsvfvyehuaefan:xZO68hHyYR4OcOBj@aws-0-ap-northeast-1.pooler.supabase.com:6543/postgres"
+
+DATABASE_URL = os.environ.get("DATABASE_URL") or SUPABASE_DATABASE_URL
 if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 SQLITE_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "jobs.db")
@@ -26,6 +29,7 @@ SESSION_MINUTES = 30
 ADMIN_EMAIL    = os.environ.get("ADMIN_EMAIL", "admin@resumeai.com").strip().lower()
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "Admin@12345")
 
+print("[auth] DB target:", "Supabase PostgreSQL" if DATABASE_URL else "SQLite", flush=True)
 print("[auth] ADMIN_EMAIL loaded:", ADMIN_EMAIL, "| ADMIN_PASSWORD set:", bool(ADMIN_PASSWORD), flush=True)
 
 
@@ -85,7 +89,7 @@ def load_user(user_id):
     try:
         conn = get_conn()
         cur  = conn.cursor()
-        cur.execute(f"SELECT id, name, email, is_admin FROM users WHERE id = {PH}", (user_id,))
+        cur.execute(f"SELECT id, name, email, is_admin FROM users WHERE id = {PH}", (int(user_id),))
         row  = cur.fetchone()
         conn.close()
         return User(*row) if row else None
@@ -161,7 +165,7 @@ def register():
         try:
             conn = get_conn()
             cur  = conn.cursor()
-            cur.execute(f"SELECT id FROM users WHERE email = {PH} AND password_hash IS NOT NULL", (email,))
+            cur.execute(f"SELECT id FROM users WHERE LOWER(TRIM(email)) = LOWER(TRIM({PH})) AND password_hash IS NOT NULL", (email,))
             if cur.fetchone():
                 conn.close()
                 flash("This email is already registered.")
@@ -196,7 +200,7 @@ def login():
             cur  = conn.cursor()
             cur.execute(
                 f"SELECT id, name, email, password_hash, is_admin FROM users "
-                f"WHERE email = {PH} AND password_hash IS NOT NULL",
+                f"WHERE LOWER(TRIM(email)) = LOWER(TRIM({PH})) AND password_hash IS NOT NULL",
                 (email,)
             )
             row = cur.fetchone()
