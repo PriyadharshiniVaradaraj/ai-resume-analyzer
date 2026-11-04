@@ -27,7 +27,7 @@ def now_ist():
 def get_conn():
     if DATABASE_URL:
         import psycopg2
-        return psycopg2.connect(DATABASE_URL)
+        return psycopg2.connect(DATABASE_URL, connect_timeout=10)
     return sqlite3.connect(SQLITE_PATH)
 
 def _try(conn, cur, sql):

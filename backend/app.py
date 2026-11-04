@@ -43,9 +43,11 @@ login_manager.init_app(app)
 csrf = CSRFProtect(app)
 app.register_blueprint(auth)
 print("ADMIN_EMAIL loaded:", bool(os.environ.get("ADMIN_EMAIL")), "| ADMIN_PASSWORD loaded:", bool(os.environ.get("ADMIN_PASSWORD")))
-init_auth_table()
-init_history_table()
-init_applications_table()
+for _init in (init_auth_table, init_history_table, init_applications_table):
+    try:
+        _init()
+    except Exception as e:
+        print("Startup DB init failed:", _init.__name__, e, flush=True)
 
 # Folder where uploaded resumes are stored
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "uploads")
