@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My History | AI Resume Analyzer</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eef3f7;
+            margin: 0;
+            padding: 30px 20px;
+        }
+
+        .wrap {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1f3a5f;
+            font-size: 26px;
+        }
+
+        a.btn {
+            background: #e8873a;
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+        }
+
+        th {
+            background: #1f3a5f;
+            color: #fff;
+            text-align: left;
+            padding: 14px;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #e3e9ef;
+            color: #1b2a3a;
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        td a {
+            color: #1e8080;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .empty {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            color: #5b6b7b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="top">
+            <h1>My previous analyses</h1>
+            <a class="btn" href="{{ url_for('home') }}">Analyze new resume</a>
+        </div>
+
+        {% if records %}
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Resume file</th>
+                <th>Score</th>
+                <th>Date</th>
+                <th></th>
+            </tr>
+            {% for r in records %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ r.file_name }}</td>
+                <td>{{ r.score }}</td>
+                <td>{{ r.created_at }}</td>
+                <td><a href="{{ url_for('history_detail', record_id=r.id) }}">View</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <div class="empty">No analyses yet. Upload a resume to get started.</div>
+        {% endif %}
+    </div>
+</body>
+
+</html>

@@ -25,31 +25,55 @@
 
         <ul class="nav-links">
 
-            <li>
+
                 <a href="#home">Home</a>
             </li>
 
-            <li>
+
                 <a href="#features">Features</a>
             </li>
 
-            <li>
+
                 <a href="#how">How It Works</a>
             </li>
 
-            <li>
+
                 <a href="#dashboard">Dashboard</a>
             </li>
 
-            <li>
+
                 <a href="#analyze">Analyze Resume</a>
+            </li>
+
+
+                <a href="{{ url_for('history') }}">My History</a>
+            </li>
+
+
+                <a href="{{ url_for('applications') }}">My Applications</a>
+            </li>
+
+            
+
+
+
+
+                <a href="{{ url_for('auth.logout') }}">Logout</a>
             </li>
 
         </ul>
 
-        <a href="#analyze" class="nav-button">
-            Get Started
-        </a>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="{{ url_for('history') }}" class="nav-button" style="background: linear-gradient(135deg, #1f3a5f, #1e8080);">
+                My History
+            </a>
+            <a href="{{ url_for('applications') }}" class="nav-button" style="background: linear-gradient(135deg, #0d9488, #14b8a6);">
+                My Applications
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="nav-button" style="background: #ef4444;">
+                Logout
+            </a>
+        </div>
 
     </nav>
 
@@ -122,6 +146,7 @@
             </p>
 
             <form action="/analyze" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
                 <input type="file" id="fileInput" name="resume" accept=".pdf" class="file-input" required>
 

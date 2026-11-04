@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin | AI Resume Analyzer</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #eef3f7;
+            margin: 0;
+            padding: 30px 20px;
+            color: #1b2a3a;
+        }
+
+        .wrap {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #1f3a5f;
+            font-size: 26px;
+        }
+
+        h2 {
+            color: #1f3a5f;
+            font-size: 18px;
+            margin: 28px 0 12px;
+        }
+
+        .nav a {
+            color: #1e8080;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 16px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+
+        .stat {
+            background: #fff;
+            border-radius: 12px;
+            padding: 18px 20px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+        }
+
+        .stat b {
+            display: block;
+            font-size: 30px;
+            color: #1f3a5f;
+        }
+
+        .stat span {
+            color: #5b6b7b;
+            font-size: 14px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+        }
+
+        th {
+            background: #1f3a5f;
+            color: #fff;
+            text-align: left;
+            padding: 12px 14px;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #e3e9ef;
+            font-size: 14px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .Active {
+            background: #dff5e6;
+            color: #1a7f3c;
+        }
+
+        .Logged {
+            background: #e8edf3;
+            color: #1f3a5f;
+        }
+
+        .Session {
+            background: #fcefe3;
+            color: #b8621f;
+        }
+
+        .scroll {
+            overflow-x: auto;
+        }
+
+        @media (max-width:640px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="top">
+            <h1>Admin dashboard</h1>
+            <div class="nav">
+                <a href="{{ url_for('auth.admin_logout') }}">Admin logout</a>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat"><b>{{ total_users }}</b><span>Registered users</span></div>
+            <div class="stat"><b>{{ active }}</b><span>Active now</span></div>
+            <div class="stat"><b>{{ today_count }}</b><span>Logins today</span></div>
+        </div>
+
+        <h2>Login activity (latest 200, Indian time)</h2>
+        <div class="scroll">
+            <table>
+                <tr>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Login time</th>
+                    <th>Logout time</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                </tr>
+                {% for l in logs %}
+                <tr>
+                    <td>{{ l.name }}</td>
+                    <td>{{ l.email }}</td>
+                    <td>{{ l.login_time }}</td>
+                    <td>{{ l.logout_time }}</td>
+                    <td>{{ l.minutes }} min</td>
+                    <td><span class="badge {{ l.status.split()[0] }}">{{ l.status }}</span></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6">No login activity yet.</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <h2>Registered users</h2>
+        <div class="scroll">
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+                {% for u in users %}
+                <tr>
+                    <td>{{ u[0] }}</td>
+                    <td>{{ u[1] }}</td>
+                    <td>{{ u[2] }}</td>
+                    <td>{{ 'Admin' if u[3] else 'User' }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

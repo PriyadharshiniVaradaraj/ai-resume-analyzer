@@ -982,6 +982,12 @@ footer section,
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
 }
 
+.job-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .back-btn-container {
     text-align: center;
     margin-top: 40px;
@@ -1066,3 +1072,22 @@ footer section,
         gap: 20px;
     }
 }
+
+/* =====================================================
+   APPLY BUTTON & JOB ACTIONS
+===================================================== */
+.job-actions { display: flex; align-items: center; gap: 12px; }
+
+.btn-apply {
+  background: #4f46e5;
+  color: #ffffff;
+  border: none;
+  padding: 9px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.btn-apply:hover { background: #4338ca; }
+.btn-apply:active { transform: scale(0.97); }
