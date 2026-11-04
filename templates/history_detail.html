@@ -6,19 +6,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analysis details | AI Resume Analyzer</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
             font-family: "Segoe UI", Arial, sans-serif;
             background: #eef3f7;
-            margin: 0;
-            padding: 30px 20px;
+            min-height: 100vh;
+            color: #1b2a3a;
+        }
+
+        /* ---- Navigation / breadcrumb bar ---- */
+        .topbar {
+            background: #1f3a5f;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .topbar-brand {
+            color: rgba(255,255,255,0.65);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .topbar-sep {
+            color: rgba(255,255,255,0.35);
+            font-size: 14px;
+        }
+
+        .topbar-current {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 320px;
+        }
+
+        /* ---- Page content ---- */
+        .page-body {
+            padding: 32px 20px 48px;
         }
 
         .wrap {
-            max-width: 800px;
+            max-width: 820px;
             margin: 0 auto;
         }
 
-        h1 {
+        /* ---- Back button ---- */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #1e8080;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 8px 16px;
+            border: 2px solid #1e8080;
+            border-radius: 10px;
+            margin-bottom: 24px;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .back-btn:hover {
+            background: #1e8080;
+            color: #fff;
+        }
+
+        /* ---- Header ---- */
+        .detail-header {
+            margin-bottom: 28px;
+        }
+
+        .detail-header h1 {
             color: #1f3a5f;
             font-size: 24px;
             margin-bottom: 4px;
@@ -27,65 +92,248 @@
         .meta {
             color: #5b6b7b;
             font-size: 14px;
-            margin-bottom: 20px;
         }
 
+        /* ---- Cards ---- */
         .card {
             background: #fff;
-            border-radius: 12px;
-            padding: 20px 24px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
-            color: #1b2a3a;
+            border-radius: 14px;
+            padding: 22px 26px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
         }
 
         .card h2 {
             color: #1e8080;
-            font-size: 18px;
-            margin-bottom: 10px;
+            font-size: 17px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        ul {
-            margin-left: 20px;
+        /* Score display */
+        .score-display {
+            font-size: 48px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 4px;
         }
 
-        li {
-            margin: 4px 0;
+        .score-green  { color: #16a34a; }
+        .score-yellow { color: #ca8a04; }
+        .score-red    { color: #dc2626; }
+
+        .score-label {
+            font-size: 14px;
+            color: #5b6b7b;
         }
 
-        a {
+        /* ---- Pill tags (skills) ---- */
+        .pill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            list-style: none;
+            padding: 0;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .pill-match {
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .pill-gap {
+            background: #fff7ed;
+            color: #9a3412;
+            border: 1px solid #fed7aa;
+        }
+
+        .pill-neutral {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+        }
+
+        /* ---- Job recommendation cards ---- */
+        .job-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .job-card {
+            border: 1px solid #e3e9ef;
+            border-radius: 12px;
+            padding: 16px 18px;
+            background: #fafcfd;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .job-card:hover {
+            border-color: #1e8080;
+            box-shadow: 0 4px 14px rgba(30,128,128,0.1);
+        }
+
+        .job-card-title {
+            font-weight: 700;
+            font-size: 15px;
+            color: #1f3a5f;
+            margin-bottom: 4px;
+        }
+
+        .job-card-company {
+            font-size: 13px;
             color: #1e8080;
             font-weight: 600;
-            text-decoration: none;
+            margin-bottom: 6px;
+        }
+
+        .job-card-meta {
+            font-size: 12px;
+            color: #5b6b7b;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .job-card-meta span { display: flex; align-items: center; gap: 3px; }
+
+        /* Fallback generic list renderer */
+        .generic-list {
+            list-style: disc;
+            padding-left: 20px;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 600px) {
+            .topbar { padding: 0 14px; }
+            .page-body { padding: 20px 12px 40px; }
+            .detail-header h1 { font-size: 20px; }
+            .card { padding: 16px 18px; }
         }
     </style>
 </head>
 
 <body>
-    {% macro show(v) %}
-    {% if v is mapping %}
-    {% for k, x in v.items() %}<div><b>{{ k }}:</b> {{ show(x) }}</div>{% endfor %}
-    {% elif v is iterable and v is not string %}
-    <ul>{% for x in v %}<li>{{ show(x) }}</li>{% endfor %}</ul>
-    {% else %}{{ v }}{% endif %}
+    {% macro render_jobs(jobs_data) %}
+        {% if jobs_data is iterable and jobs_data is not string %}
+            <div class="job-cards">
+            {% for job in jobs_data %}
+                {% if job is mapping %}
+                <div class="job-card">
+                    <div class="job-card-title">{{ job.get('title', job.get('role', job.get('job_title', '—'))) }}</div>
+                    {% if job.get('company') %}<div class="job-card-company">🏢 {{ job.company }}</div>{% endif %}
+                    <div class="job-card-meta">
+                        {% if job.get('location') %}<span>📍 {{ job.location }}</span>{% endif %}
+                        {% if job.get('salary') %}<span>💰 {{ job.salary }}</span>{% endif %}
+                        {% if job.get('salary_range') %}<span>💰 {{ job.salary_range }}</span>{% endif %}
+                    </div>
+                </div>
+                {% else %}
+                <div class="job-card">
+                    <div class="job-card-title">{{ job }}</div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+        {% else %}
+            <p style="font-size:14px; color:#5b6b7b;">{{ jobs_data }}</p>
+        {% endif %}
     {% endmacro %}
 
-    <div class="wrap">
-        <p><a href="{{ url_for('history') }}">&larr; Back to history</a></p>
-        <h1>{{ r.file_name }}</h1>
-        <p class="meta">Analyzed on {{ r.created_at }}</p>
+    <!-- Breadcrumb topbar -->
+    <div class="topbar">
+        <a href="{{ url_for('history') }}" class="topbar-brand">📋 My History</a>
+        <span class="topbar-sep">/</span>
+        <span class="topbar-current">{{ r.file_name }}</span>
+    </div>
 
-        <div class="card">
-            <h2>Resume score</h2>{{ show(r.score) }}
-        </div>
-        <div class="card">
-            <h2>Skills found</h2>{{ show(r.skills) }}
-        </div>
-        <div class="card">
-            <h2>Missing skills / gaps</h2>{{ show(r.gaps) }}
-        </div>
-        <div class="card">
-            <h2>Recommended job roles</h2>{{ show(r.jobs) }}
+    <div class="page-body">
+        <div class="wrap">
+            <!-- Back button -->
+            <a href="{{ url_for('history') }}" class="back-btn">← Back to history</a>
+
+            <!-- Header -->
+            <div class="detail-header">
+                <h1>{{ r.file_name }}</h1>
+                <p class="meta">Analyzed on {{ r.created_at }}</p>
+            </div>
+
+            <!-- Score card -->
+            <div class="card">
+                <h2>🎯 Resume score</h2>
+                {% set sc = r.score | int %}
+                {% if sc >= 70 %}
+                    <div class="score-display score-green">{{ r.score }}</div>
+                    <div class="score-label">Great score — you're in strong shape!</div>
+                {% elif sc >= 40 %}
+                    <div class="score-display score-yellow">{{ r.score }}</div>
+                    <div class="score-label">Fair score — a few improvements could make a big difference.</div>
+                {% else %}
+                    <div class="score-display score-red">{{ r.score }}</div>
+                    <div class="score-label">Low score — consider adding more relevant skills and experience.</div>
+                {% endif %}
+            </div>
+
+            <!-- Skills found -->
+            <div class="card">
+                <h2>✅ Skills found</h2>
+                {% if r.skills %}
+                    {% if r.skills is iterable and r.skills is not string %}
+                        <ul class="pill-list">
+                            {% for skill in r.skills %}
+                                <li class="pill pill-match">{{ skill }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p style="font-size:14px;">{{ r.skills }}</p>
+                    {% endif %}
+                {% else %}
+                    <p style="font-size:14px; color:#5b6b7b;">No skills detected.</p>
+                {% endif %}
+            </div>
+
+            <!-- Missing skills / gaps -->
+            <div class="card">
+                <h2>⚠️ Missing skills / gaps</h2>
+                {% if r.gaps %}
+                    {% if r.gaps is iterable and r.gaps is not string %}
+                        <ul class="pill-list">
+                            {% for gap in r.gaps %}
+                                <li class="pill pill-gap">{{ gap }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p style="font-size:14px;">{{ r.gaps }}</p>
+                    {% endif %}
+                {% else %}
+                    <p style="font-size:14px; color:#5b6b7b;">No gaps identified.</p>
+                {% endif %}
+            </div>
+
+            <!-- Job recommendations -->
+            <div class="card">
+                <h2>💼 Recommended job roles</h2>
+                {% if r.jobs %}
+                    {{ render_jobs(r.jobs) }}
+                {% else %}
+                    <p style="font-size:14px; color:#5b6b7b;">No recommendations available.</p>
+                {% endif %}
+            </div>
+
+            <!-- Bottom back button -->
+            <a href="{{ url_for('history') }}" class="back-btn">← Back to history</a>
         </div>
     </div>
 </body>

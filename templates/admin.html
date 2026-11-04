@@ -6,192 +6,380 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin | AI Resume Analyzer</title>
     <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
             font-family: "Segoe UI", Arial, sans-serif;
             background: #eef3f7;
-            margin: 0;
-            padding: 30px 20px;
+            min-height: 100vh;
             color: #1b2a3a;
         }
 
+        /* ---- Navbar ---- */
+        .navbar {
+            background: #1f3a5f;
+            padding: 0 24px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .refresh-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 7px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.15s;
+        }
+
+        .refresh-btn:hover { background: rgba(255,255,255,0.22); }
+
+        .logout-link {
+            color: #f8a97a;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            padding: 7px 14px;
+            border-radius: 8px;
+            transition: background 0.15s;
+        }
+
+        .logout-link:hover { background: rgba(248,169,122,0.15); }
+
+        /* ---- Page content ---- */
+        .page-body {
+            padding: 32px 20px 56px;
+        }
+
         .wrap {
-            max-width: 1000px;
+            max-width: 1050px;
             margin: 0 auto;
         }
 
-        .top {
+        .page-header {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 28px;
         }
 
-        h1 {
-            color: #1f3a5f;
+        .page-header h1 {
             font-size: 26px;
-        }
-
-        h2 {
             color: #1f3a5f;
-            font-size: 18px;
-            margin: 28px 0 12px;
         }
 
-        .nav a {
-            color: #1e8080;
-            font-weight: 600;
-            text-decoration: none;
-            margin-left: 16px;
-        }
-
+        /* ---- Stat cards ---- */
         .stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
+            gap: 16px;
+            margin-bottom: 36px;
         }
 
         .stat {
             background: #fff;
-            border-radius: 12px;
-            padding: 18px 20px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+            border-radius: 14px;
+            padding: 20px 22px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            border-left: 5px solid #ccc;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
+
+        .stat:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .stat-total    { border-left-color: #3b82f6; }
+        .stat-active   { border-left-color: #22c55e; }
+        .stat-today    { border-left-color: #f97316; }
 
         .stat b {
             display: block;
-            font-size: 30px;
+            font-size: 34px;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 4px;
             color: #1f3a5f;
         }
 
         .stat span {
             color: #5b6b7b;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* ---- Section headings ---- */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 32px 0 14px;
+            gap: 12px;
+        }
+
+        .section-header h2 {
+            color: #1f3a5f;
+            font-size: 18px;
+        }
+
+        /* ---- Search box ---- */
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-input {
+            padding: 8px 14px;
+            border: 1.5px solid #d5dee6;
+            border-radius: 8px;
             font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: #fff;
+            color: #1b2a3a;
+            width: 220px;
+        }
+
+        .search-input:focus {
+            border-color: #1e8080;
+            box-shadow: 0 0 0 3px rgba(30,128,128,0.12);
+        }
+
+        /* ---- Tables ---- */
+        .table-scroll {
+            overflow-x: auto;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background: #fff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+            min-width: 540px;
         }
 
-        th {
+        thead th {
             background: #1f3a5f;
             color: #fff;
             text-align: left;
-            padding: 12px 14px;
+            padding: 13px 15px;
             font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
         }
+
+        thead th:first-child { border-radius: 14px 0 0 0; }
+        thead th:last-child  { border-radius: 0 14px 0 0; }
 
         td {
-            padding: 12px 14px;
-            border-bottom: 1px solid #e3e9ef;
+            padding: 12px 15px;
+            border-bottom: 1px solid #e9eef3;
             font-size: 14px;
+            white-space: nowrap;
         }
 
-        tr:last-child td {
-            border-bottom: none;
+        tbody tr:last-child td { border-bottom: none; }
+
+        /* Alternating rows */
+        tbody tr:nth-child(even) { background: #f8fafc; }
+
+        tbody tr {
+            transition: background 0.12s;
         }
 
+        tbody tr:hover { background: #ebf4f4 !important; }
+
+        /* ---- Status badges ---- */
         .badge {
-            padding: 4px 10px;
+            display: inline-block;
+            padding: 4px 11px;
             border-radius: 20px;
             font-weight: 600;
             font-size: 12px;
+            cursor: default;
+            white-space: nowrap;
         }
 
-        .Active {
-            background: #dff5e6;
-            color: #1a7f3c;
-        }
+        /* tooltip via title attr — no extra JS needed */
+        .Active  { background: #dff5e6; color: #1a7f3c; border: 1px solid #a3e6be; }
+        .Logged  { background: #e8edf3; color: #1f3a5f; border: 1px solid #bfcfe0; }
+        .Session { background: #fcefe3; color: #b8621f; border: 1px solid #f5c48a; }
 
-        .Logged {
-            background: #e8edf3;
-            color: #1f3a5f;
-        }
+        /* hidden rows (user search filter) */
+        tr.hidden-row { display: none; }
 
-        .Session {
-            background: #fcefe3;
-            color: #b8621f;
-        }
-
-        .scroll {
-            overflow-x: auto;
-        }
-
-        @media (max-width:640px) {
-            .stats {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 700px) {
+            .stats { grid-template-columns: 1fr; }
+            .navbar { padding: 0 14px; }
+            .page-body { padding: 20px 12px 40px; }
+            .search-input { width: 160px; }
         }
     </style>
 </head>
 
 <body>
-    <div class="wrap">
-        <div class="top">
-            <h1>Admin dashboard</h1>
-            <div class="nav">
-                <a href="{{ url_for('auth.admin_logout') }}">Admin logout</a>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <span class="navbar-brand">🛡️ Admin Dashboard</span>
+        <div class="navbar-right">
+            <a href="{{ request.url }}" class="refresh-btn">🔄 Refresh</a>
+            <a href="{{ url_for('auth.admin_logout') }}" class="logout-link">⏏ Logout</a>
+        </div>
+    </nav>
+
+    <div class="page-body">
+        <div class="wrap">
+            <div class="page-header">
+                <span style="font-size:28px;">🛡️</span>
+                <h1>Admin dashboard</h1>
+            </div>
+
+            <!-- Stat cards -->
+            <div class="stats">
+                <div class="stat stat-total">
+                    <b>{{ total_users }}</b>
+                    <span>Registered users</span>
+                </div>
+                <div class="stat stat-active">
+                    <b>{{ active }}</b>
+                    <span>Active now</span>
+                </div>
+                <div class="stat stat-today">
+                    <b>{{ today_count }}</b>
+                    <span>Logins today</span>
+                </div>
+            </div>
+
+            <!-- Login activity table -->
+            <div class="section-header">
+                <h2>📊 Login activity <small style="color:#5b6b7b;font-weight:400;font-size:14px;">(latest 200, Indian time)</small></h2>
+            </div>
+            <div class="table-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Login time</th>
+                            <th>Logout time</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for l in logs %}
+                        <tr>
+                            <td>{{ l.name }}</td>
+                            <td>{{ l.email }}</td>
+                            <td>{{ l.login_time }}</td>
+                            <td>{{ l.logout_time }}</td>
+                            <td>{{ l.minutes }} min</td>
+                            <td>
+                                {% set status_class = l.status.split()[0] %}
+                                {% if status_class == 'Active' %}
+                                    <span class="badge Active" title="User is currently active">{{ l.status }}</span>
+                                {% elif status_class == 'Session' %}
+                                    <span class="badge Session" title="Session ended">{{ l.status }}</span>
+                                {% else %}
+                                    <span class="badge Logged" title="Logged out">{{ l.status }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" style="color:#5b6b7b; text-align:center; padding: 28px;">No login activity yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Registered users table -->
+            <div class="section-header">
+                <h2>👥 Registered users</h2>
+                <div class="search-box">
+                    <input type="text" class="search-input" id="userSearch"
+                           placeholder="🔍 Search users…"
+                           oninput="filterUsers(this.value)">
+                </div>
+            </div>
+            <div class="table-scroll">
+                <table id="usersTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                        <tr>
+                            <td>{{ u[0] }}</td>
+                            <td>{{ u[1] }}</td>
+                            <td>{{ u[2] }}</td>
+                            <td>
+                                {% if u[3] %}
+                                    <span class="badge Active">Admin</span>
+                                {% else %}
+                                    <span class="badge Logged">User</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-
-        <div class="stats">
-            <div class="stat"><b>{{ total_users }}</b><span>Registered users</span></div>
-            <div class="stat"><b>{{ active }}</b><span>Active now</span></div>
-            <div class="stat"><b>{{ today_count }}</b><span>Logins today</span></div>
-        </div>
-
-        <h2>Login activity (latest 200, Indian time)</h2>
-        <div class="scroll">
-            <table>
-                <tr>
-                    <th>User</th>
-                    <th>Email</th>
-                    <th>Login time</th>
-                    <th>Logout time</th>
-                    <th>Duration</th>
-                    <th>Status</th>
-                </tr>
-                {% for l in logs %}
-                <tr>
-                    <td>{{ l.name }}</td>
-                    <td>{{ l.email }}</td>
-                    <td>{{ l.login_time }}</td>
-                    <td>{{ l.logout_time }}</td>
-                    <td>{{ l.minutes }} min</td>
-                    <td><span class="badge {{ l.status.split()[0] }}">{{ l.status }}</span></td>
-                </tr>
-                {% else %}
-                <tr>
-                    <td colspan="6">No login activity yet.</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
-
-        <h2>Registered users</h2>
-        <div class="scroll">
-            <table>
-                <tr>
-                    <th>#</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                </tr>
-                {% for u in users %}
-                <tr>
-                    <td>{{ u[0] }}</td>
-                    <td>{{ u[1] }}</td>
-                    <td>{{ u[2] }}</td>
-                    <td>{{ 'Admin' if u[3] else 'User' }}</td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
     </div>
+
+    <script>
+        function filterUsers(query) {
+            var q = query.toLowerCase().trim();
+            var rows = document.querySelectorAll("#usersTable tbody tr");
+            rows.forEach(function(row) {
+                var text = row.textContent.toLowerCase();
+                if (q === "" || text.indexOf(q) !== -1) {
+                    row.classList.remove("hidden-row");
+                } else {
+                    row.classList.add("hidden-row");
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

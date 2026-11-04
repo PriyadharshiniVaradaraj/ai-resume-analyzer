@@ -6,134 +6,305 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Applications | AI Resume Analyzer</title>
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: "Segoe UI", Arial, sans-serif;
       background: #eef3f7;
-      margin: 0;
-      padding: 30px 20px;
+      min-height: 100vh;
+      color: #1b2a3a;
+    }
+
+    /* ---- Top navigation bar ---- */
+    .navbar {
+      background: #1f3a5f;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #fff;
+      font-weight: 700;
+      font-size: 15px;
+      text-decoration: none;
+      letter-spacing: 0.3px;
+    }
+
+    .navbar-brand-icon {
+      font-size: 20px;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .navbar-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 8px;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .navbar-links a:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .navbar-links a.active { background: rgba(255,255,255,0.18); color: #fff; font-weight: 600; }
+    .navbar-links a.logout { color: #f8a97a; }
+    .navbar-links a.logout:hover { background: rgba(248,169,122,0.15); color: #f8a97a; }
+
+    /* ---- Page content ---- */
+    .page-body {
+      padding: 32px 20px;
     }
 
     .wrap {
-      max-width: 850px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
-    .top {
+    .page-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin-bottom: 24px;
     }
 
-    h1 {
+    .page-header-icon {
+      font-size: 28px;
+    }
+
+    .page-header h1 {
       color: #1f3a5f;
       font-size: 26px;
     }
 
-    .nav a {
-      color: #1e8080;
-      font-weight: 600;
-      text-decoration: none;
-      margin-left: 16px;
+    /* ---- Flash messages ---- */
+    .flash {
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    /* ---- Table responsive wrapper ---- */
+    .table-scroll {
+      overflow-x: auto;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, .08);
+      min-width: 540px;
     }
 
-    th {
+    thead th {
       background: #1f3a5f;
       color: #fff;
       text-align: left;
-      padding: 14px;
-      font-size: 14px;
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
     }
+
+    thead th:first-child { border-radius: 14px 0 0 0; }
+    thead th:last-child  { border-radius: 0 14px 0 0; }
 
     td {
-      padding: 14px;
-      border-bottom: 1px solid #e3e9ef;
-      color: #1b2a3a;
+      padding: 13px 16px;
+      border-bottom: 1px solid #e9eef3;
       font-size: 14px;
+      color: #1b2a3a;
+      white-space: nowrap;
     }
 
-    tr:last-child td {
-      border-bottom: none;
+    tbody tr:last-child td { border-bottom: none; }
+
+    tbody tr {
+      transition: background 0.15s;
+      cursor: default;
     }
 
-    .badge {
-      background: #e3f1f1;
-      color: #1e8080;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 12px;
-    }
-
-    .flash {
-      background: #fcefe3;
-      color: #b8621f;
-      border-radius: 8px;
-      padding: 10px 14px;
-      margin-bottom: 16px;
-    }
-
-    .empty {
-      background: #fff;
-      padding: 40px;
-      border-radius: 12px;
-      text-align: center;
-      color: #5b6b7b;
-    }
+    tbody tr:hover { background: #f0f6fb; }
 
     td a {
       color: #1e8080;
       font-weight: 600;
       text-decoration: none;
     }
+    td a:hover { text-decoration: underline; }
+
+    /* ---- Status badges ---- */
+    .badge {
+      display: inline-block;
+      padding: 4px 11px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    /* Applied — teal */
+    .badge-applied   { background: #e0f5f5; color: #0d6e6e; border: 1px solid #a7e3e3; }
+    /* Interview — blue */
+    .badge-interview { background: #e8f0fe; color: #1a56db; border: 1px solid #aac4f9; }
+    /* Rejected — red */
+    .badge-rejected  { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    /* Offer — green */
+    .badge-offer     { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    /* Default / other */
+    .badge-default   { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+
+    /* ---- Empty state ---- */
+    .empty-state {
+      background: #fff;
+      border-radius: 14px;
+      padding: 60px 40px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+
+    .empty-state-icon {
+      font-size: 56px;
+      margin-bottom: 16px;
+      display: block;
+      line-height: 1;
+    }
+
+    .empty-state h2 {
+      font-size: 20px;
+      color: #1f3a5f;
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      color: #5b6b7b;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .empty-state .cta-btn {
+      display: inline-block;
+      background: #e8873a;
+      color: #fff;
+      padding: 11px 24px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+
+    .empty-state .cta-btn:hover { background: #d4762c; }
+
+    @media (max-width: 600px) {
+      .navbar { padding: 0 14px; }
+      .navbar-links a { padding: 7px 10px; font-size: 13px; }
+      .page-body { padding: 20px 12px; }
+      .page-header h1 { font-size: 20px; }
+    }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="top">
-      <h1>My job applications</h1>
-      <div class="nav">
-        <a href="{{ url_for('home') }}">Analyze resume</a>
-        <a href="{{ url_for('history') }}">My History</a>
-        <a href="{{ url_for('auth.logout') }}">Logout</a>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="{{ url_for('home') }}" class="navbar-brand">
+      <span class="navbar-brand-icon">📄</span>
+      AI Resume Analyzer
+    </a>
+    <div class="navbar-links">
+      <a href="{{ url_for('home') }}">🏠 Home</a>
+      <a href="{{ url_for('history') }}">📋 History</a>
+      <a href="{{ url_for('applications') }}" class="active">💼 Applications</a>
+      <a href="{{ url_for('auth.logout') }}" class="logout">⏏ Logout</a>
+    </div>
+  </nav>
+
+  <div class="page-body">
+    <div class="wrap">
+      <div class="page-header">
+        <span class="page-header-icon">💼</span>
+        <h1>My job applications</h1>
       </div>
-    </div>
 
-    {% for m in get_flashed_messages() %}<div class="flash">{{ m }}</div>{% endfor %}
-
-    {% if apps %}
-    <table>
-      <tr>
-        <th>Job role</th>
-        <th>Company</th>
-        <th>Applied on</th>
-        <th>Status</th>
-        <th></th>
-      </tr>
-      {% for a in apps %}
-      <tr>
-        <td>{{ a.job_title }}</td>
-        <td>{{ a.company }}</td>
-        <td>{{ a.applied_at }}</td>
-        <td><span class="badge">{{ a.status }}</span></td>
-        <td>{% if a.apply_url %}<a href="{{ a.apply_url }}" target="_blank" rel="noopener">Open job</a>{% endif %}</td>
-      </tr>
+      {% for m in get_flashed_messages() %}
+      <div class="flash">✗ {{ m }}</div>
       {% endfor %}
-    </table>
-    {% else %}
-    <div class="empty">You haven't applied to any jobs yet. Analyze a resume and click Apply on a recommended role.
+
+      {% if apps %}
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Job role</th>
+              <th>Company</th>
+              <th>Applied on</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in apps %}
+            <tr>
+              <td>{{ a.job_title }}</td>
+              <td>{{ a.company }}</td>
+              <td>{{ a.applied_at }}</td>
+              <td>
+                {% set s = (a.status or '') | lower %}
+                {% if 'interview' in s %}
+                  <span class="badge badge-interview">{{ a.status }}</span>
+                {% elif 'reject' in s %}
+                  <span class="badge badge-rejected">{{ a.status }}</span>
+                {% elif 'offer' in s %}
+                  <span class="badge badge-offer">{{ a.status }}</span>
+                {% elif 'applied' in s %}
+                  <span class="badge badge-applied">{{ a.status }}</span>
+                {% else %}
+                  <span class="badge badge-default">{{ a.status }}</span>
+                {% endif %}
+              </td>
+              <td>
+                {% if a.apply_url %}
+                <a href="{{ a.apply_url }}" target="_blank" rel="noopener">Open job ↗</a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <span class="empty-state-icon">📭</span>
+        <h2>No applications yet</h2>
+        <p>Analyze a resume and click <strong>Apply</strong> on a recommended role to track it here.</p>
+        <a href="{{ url_for('home') }}" class="cta-btn">📄 Analyze a resume</a>
+      </div>
+      {% endif %}
     </div>
-    {% endif %}
   </div>
 </body>
 
