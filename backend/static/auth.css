@@ -1,313 +1,397 @@
 /* ============================================================
-   auth.css — Shared styles for login, register, admin_login
+   ResumeAI — auth.css
+   Modern Glassmorphism & Aurora Gradient for Auth Pages
    ============================================================ */
-* { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ---------- Animated background ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1f3a5f 0%, #1e8080 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 10s ease infinite;
-  padding: 20px;
+  background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15), transparent 40%),
+              radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15), transparent 40%),
+              linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  padding: 24px;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  color: #0f172a;
 }
 
-@keyframes gradientShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Subtle floating blobs */
+/* Subtle background glowing orbs */
 body::before, body::after {
   content: "";
   position: fixed;
   border-radius: 50%;
-  opacity: 0.08;
-  background: #ffffff;
+  filter: blur(80px);
   pointer-events: none;
+  z-index: 0;
 }
-body::before { width: 420px; height: 420px; top: -120px; left: -100px; }
-body::after  { width: 350px; height: 350px; bottom: -80px; right: -80px; }
 
-/* ---------- Auth card ---------- */
+body::before {
+  width: 450px;
+  height: 450px;
+  background: rgba(99, 102, 241, 0.25);
+  top: -100px;
+  left: -100px;
+}
+
+body::after {
+  width: 400px;
+  height: 400px;
+  background: rgba(168, 85, 247, 0.2);
+  bottom: -100px;
+  right: -100px;
+}
+
+/* Top-right Navigation Pill (e.g. Admin Login link) */
+.admin-link, .back-home-link {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 100;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.admin-link:hover, .back-home-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  color: #ffffff;
+}
+
+/* Auth Card */
 .auth-card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   width: 100%;
-  max-width: 420px;
-  padding: 40px 36px 32px;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 440px;
+  padding: 44px 38px;
+  border-radius: 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35),
+              0 0 0 1px rgba(255, 255, 255, 0.5) inset;
   position: relative;
-  z-index: 1;
-  animation: fadeInUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  z-index: 10;
+  animation: cardFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(28px); }
-  to   { opacity: 1; transform: translateY(0); }
+@keyframes cardFadeIn {
+  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* ---------- Branding logo area ---------- */
+/* Branding Logo Area */
 .auth-logo {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .auth-logo-icon {
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, #1f3a5f, #1e8080);
-  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  box-shadow: 0 4px 12px rgba(30, 128, 128, 0.3);
+  color: #ffffff;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
 }
 
 .auth-logo-text {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1f3a5f;
-  letter-spacing: 0.3px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
 }
 
-/* ---------- Headings ---------- */
+.auth-logo-text span {
+  color: #4f46e5;
+}
+
+/* Headings */
 .auth-card h1 {
-  color: #1f3a5f;
-  font-size: 24px;
+  color: #0f172a;
+  font-size: 26px;
+  font-weight: 800;
   text-align: center;
+  letter-spacing: -0.5px;
   margin-bottom: 6px;
 }
 
 .auth-card .subtitle {
-  color: #5b6b7b;
-  font-size: 14px;
+  color: #64748b;
+  font-size: 14.5px;
   text-align: center;
-  margin-bottom: 22px;
+  margin-bottom: 28px;
+  line-height: 1.5;
 }
 
-/* ---------- Restricted badge ---------- */
+/* Restricted Badge for Admin */
 .restricted-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: #fff4e6;
-  color: #b8621f;
-  border: 1px solid #f5c48a;
-  border-radius: 20px;
-  padding: 5px 14px;
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  padding: 6px 14px;
+  border-radius: 9999px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.3px;
   margin: 0 auto 20px;
-  display: flex;
-  justify-content: center;
+  text-transform: uppercase;
 }
 
-/* ---------- Flash messages ---------- */
+/* Flash Messages */
 .flash {
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 14px;
-  margin-bottom: 16px;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  font-weight: 600;
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  line-height: 1.4;
+  align-items: center;
+  gap: 10px;
+  animation: flashIn 0.3s ease;
 }
 
-/* Default / error style */
-.flash,
+@keyframes flashIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.flash-icon {
+  font-style: normal;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
 .flash-error {
   background: #fef2f2;
   color: #991b1b;
   border: 1px solid #fecaca;
 }
 
+.flash-error .flash-icon {
+  background: #ef4444;
+  color: #ffffff;
+}
+
 .flash-success {
-  background: #f0fdf4;
-  color: #166534;
-  border: 1px solid #bbf7d0;
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
 }
 
-.flash-icon {
-  font-style: normal;
-  flex-shrink: 0;
-  font-size: 15px;
+.flash-success .flash-icon {
+  background: #10b981;
+  color: #ffffff;
 }
 
-/* ---------- Form labels & inputs ---------- */
-label {
-  display: block;
-  color: #1b2a3a;
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  letter-spacing: 0.2px;
-}
-
+/* Form Fields */
 .field {
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   position: relative;
+  text-align: left;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
+.field label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 8px;
+}
+
+.field input {
   width: 100%;
-  padding: 12px 42px 12px 14px;
-  border: 1.5px solid #d5dee6;
-  border-radius: 10px;
-  font-size: 15px;
+  padding: 14px 16px;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14.5px;
+  color: #0f172a;
+  background: #f8fafc;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
-  background: #fafcfd;
-  color: #1b2a3a;
+  transition: all 0.2s ease;
 }
 
-input:focus {
-  border-color: #1e8080;
-  box-shadow: 0 0 0 3px rgba(30, 128, 128, 0.15);
-  background: #fff;
+.field input:focus {
+  background: #ffffff;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
 }
 
-/* ---------- Password toggle button (eye icon) ---------- */
+.field input::placeholder {
+  color: #94a3b8;
+}
+
+/* Password Toggle Icon */
 .toggle-pw {
   position: absolute;
   right: 12px;
   bottom: 12px;
-  background: none;
+  background: transparent;
   border: none;
-  color: #5b6b7b;
   font-size: 18px;
   cursor: pointer;
+  color: #64748b;
+  padding: 4px;
   line-height: 1;
-  padding: 2px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.75;
-  transition: opacity 0.15s, color 0.15s;
-  z-index: 2;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
 }
 
 .toggle-pw:hover {
-  opacity: 1;
-  color: #1e8080;
+  color: #4f46e5;
+  background: #eef2ff;
 }
 
-/* ---------- Password strength bar ---------- */
-.pw-strength-wrap {
-  margin-top: 8px;
-}
-
+/* Password Strength Bar */
 .pw-strength-bar {
   height: 4px;
-  border-radius: 4px;
-  background: #e3e9ef;
+  width: 100%;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin-top: 8px;
   overflow: hidden;
-  margin-bottom: 4px;
+  display: none;
 }
 
 .pw-strength-fill {
   height: 100%;
-  border-radius: 4px;
   width: 0%;
-  transition: width 0.3s, background 0.3s;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
 }
 
-.pw-strength-label {
+.pw-strength-hint {
   font-size: 12px;
-  color: #5b6b7b;
+  color: #64748b;
+  margin-top: 6px;
+  display: none;
 }
 
-/* ---------- Submit button ---------- */
+/* Submit Button */
 .btn {
   width: 100%;
-  padding: 13px;
-  background: #e8873a;
+  padding: 15px 24px;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
   color: #ffffff;
   border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s, opacity 0.2s;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  position: relative;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.btn:hover  { background: #d4762c; }
-.btn:active { transform: scale(0.98); }
-
-.btn:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-  transform: none;
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.45);
+  background: linear-gradient(135deg, #4338ca 0%, #4f46e5 100%);
 }
 
-/* Spinner shown on loading state */
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn.loading {
+  pointer-events: none;
+  opacity: 0.85;
+}
+
 .btn-spinner {
   display: none;
-  width: 16px;
-  height: 16px;
-  border: 2.5px solid rgba(255,255,255,0.4);
-  border-top-color: #fff;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
-  flex-shrink: 0;
+}
+
+.btn.loading .btn-spinner {
+  display: inline-block;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
 
-.btn.loading .btn-spinner  { display: block; }
-.btn.loading .btn-label    { opacity: 0.85; }
-
-/* ---------- Switch link ---------- */
+/* Bottom Switch Link */
 .switch {
+  margin-top: 26px;
   text-align: center;
-  color: #5b6b7b;
   font-size: 14px;
-  margin-top: 20px;
+  color: #64748b;
 }
 
-.switch a { color: #1e8080; font-weight: 600; text-decoration: none; }
-.switch a:hover { text-decoration: underline; }
-
-/* ---------- Admin login pill ---------- */
-.admin-link {
-  position: fixed;
-  top: 18px;
-  right: 20px;
-  background: rgba(255,255,255,0.18);
-  backdrop-filter: blur(6px);
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 7px 16px;
-  border-radius: 20px;
+.switch a {
+  color: #4f46e5;
+  font-weight: 700;
   text-decoration: none;
-  border: 1px solid rgba(255,255,255,0.3);
-  transition: background 0.2s;
-  z-index: 10;
-  letter-spacing: 0.3px;
+  transition: color 0.15s ease;
 }
 
-.admin-link:hover {
-  background: rgba(255,255,255,0.28);
+.switch a:hover {
+  color: #4338ca;
+  text-decoration: underline;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 34px 24px;
+    border-radius: 22px;
+  }
+
+  .admin-link, .back-home-link {
+    top: 16px;
+    right: 16px;
+    font-size: 12px;
+    padding: 7px 14px;
+  }
 }

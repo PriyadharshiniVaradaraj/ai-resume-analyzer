@@ -4,22 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | AI Resume Analyzer</title>
+    <title>Login | ResumeAI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
 </head>
 
 <body>
+    <a href="{{ url_for('home') }}" class="back-home-link" style="left: 24px; right: auto;">← Back to Home</a>
     <a href="{{ url_for('auth.admin_login') }}" class="admin-link">🔒 Admin Login</a>
 
     <div class="auth-card">
         <!-- Branding -->
         <div class="auth-logo">
-            <div class="auth-logo-icon">📄</div>
-            <span class="auth-logo-text">AI Resume Analyzer</span>
+            <div class="auth-logo-icon">✦</div>
+            <span class="auth-logo-text">Resume<span>AI</span></span>
         </div>
 
         <h1>Welcome back</h1>
-        <p class="subtitle">Log in to analyze your resume</p>
+        <p class="subtitle">Log in to analyze your resume and discover opportunities</p>
 
         <!-- Flash messages -->
         {% for message in get_flashed_messages(with_categories=true) %}
@@ -39,8 +40,8 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <div class="field">
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="you@example.com"
+                <label for="email">Email address</label>
+                <input type="email" id="email" name="email" placeholder="name@example.com"
                        autocomplete="email" required autofocus>
             </div>
 
@@ -55,11 +56,11 @@
 
             <button type="submit" class="btn" id="submitBtn">
                 <span class="btn-spinner"></span>
-                <span class="btn-label">Login</span>
+                <span class="btn-label">Sign In →</span>
             </button>
         </form>
 
-        <p class="switch">New here? <a href="{{ url_for('auth.register') }}">Create an account</a></p>
+        <p class="switch">Don't have an account? <a href="{{ url_for('auth.register') }}">Create an account</a></p>
     </div>
 
     <script>

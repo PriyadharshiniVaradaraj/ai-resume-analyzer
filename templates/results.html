@@ -4,182 +4,471 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Analysis Results | ResumeAI</title>
+    <title>Analysis Results: {{ filename }} | ResumeAI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .results-page-container {
+            padding: 48px 6% 80px;
+            max-width: 1180px;
+            margin: 0 auto;
+        }
+
+        .results-top-banner {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .results-top-banner h1 {
+            font-size: 38px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.8px;
+            margin: 12px 0 8px;
+        }
+
+        .results-top-banner p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        .results-layout-grid {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 32px;
+            margin-bottom: 36px;
+            align-items: start;
+        }
+
+        .result-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.04);
+            margin-bottom: 24px;
+        }
+
+        .result-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .result-card h2 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Score Circle Display */
+        .score-box-center {
+            text-align: center;
+            padding: 12px 0 20px;
+        }
+
+        .big-score-gauge {
+            width: 170px;
+            height: 170px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            margin: 0 auto 20px;
+            box-shadow: 0 14px 34px rgba(79, 70, 229, 0.35);
+            transition: transform 0.3s ease;
+        }
+
+        .big-score-gauge:hover {
+            transform: scale(1.03);
+        }
+
+        .big-score-gauge .score-val {
+            font-size: 54px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .big-score-gauge .score-denom {
+            font-size: 12px;
+            font-weight: 700;
+            opacity: 0.85;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        .score-status-message {
+            font-size: 14.5px;
+            font-weight: 600;
+            color: #334155;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            display: inline-block;
+        }
+
+        /* Section Checklist Grid */
+        .checklist-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .check-pill {
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .check-pill.pass {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .check-pill.fail {
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /* Skill Tags */
+        .skill-badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-size: 13.5px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .skill-tag-pill:hover {
+            transform: translateY(-2px);
+        }
+
+        .tag-detected {
+            background: #eef2ff;
+            color: #4338ca;
+            border: 1px solid #c7d2fe;
+        }
+
+        .tag-matched {
+            background: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .tag-missing {
+            background: #fff7ed;
+            color: #9a3412;
+            border: 1px solid #fed7aa;
+        }
+
+        /* Modern Job Cards */
+        .job-item-card {
+            background: #ffffff;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 18px;
+            transition: all 0.25s ease;
+        }
+
+        .job-item-card:hover {
+            border-color: #818cf8;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, 0.08);
+        }
+
+        .job-title-text {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 6px;
+        }
+
+        .job-meta-line {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            color: #64748b;
+            font-size: 13.5px;
+            margin-bottom: 8px;
+        }
+
+        .job-matched-skills-line {
+            font-size: 13px;
+            color: #475569;
+        }
+
+        .job-matched-skills-line strong {
+            color: #4f46e5;
+        }
+
+        .job-right-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .match-badge-pill {
+            padding: 6px 14px;
+            border-radius: 9999px;
+            font-size: 13px;
+            font-weight: 700;
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+        }
+
+        .btn-apply-job {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: #ffffff !important;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 13.5px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .btn-apply-job:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+            background: linear-gradient(135deg, #4338ca, #4f46e5);
+        }
+
+        @media (max-width: 960px) {
+            .results-layout-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- ================= NAVBAR ================= -->
-<nav class="navbar">
-    <a href="/" class="logo">
-        <span class="logo-spark">✦</span> Resume<span>AI</span>
-    </a>
-    <ul class="nav-links" id="navLinks">
-        <li><a href="/">Home</a></li>
-        <li><a href="/#features">Features</a></li>
-        <li><a href="/#how">How It Works</a></li>
-        <li><a href="{{ url_for('history') }}">My History</a></li>
-        <li><a href="{{ url_for('applications') }}">My Applications</a></li>
-    </ul>
-    <div class="nav-actions">
-        <a href="/" class="nav-cta-btn">
-            <span>✦</span> Analyze Another
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">
+            <span class="logo-spark">✦</span> Resume<span>AI</span>
         </a>
-        <a href="{{ url_for('auth.logout') }}" class="nav-logout-btn" title="Sign out">
-            Logout
-        </a>
-        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
-</nav>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('home') }}#features">Features</a></li>
+            <li><a href="{{ url_for('home') }}#how">How It Works</a></li>
+            <li><a href="{{ url_for('history') }}">My History</a></li>
+            <li><a href="{{ url_for('applications') }}">My Applications</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="{{ url_for('home') }}#analyze" class="nav-cta-btn">
+                <span>✦</span> Analyze Another
+            </a>
+            <a href="{{ url_for('auth.logout') }}" class="nav-logout-btn" title="Sign out">
+                Logout
+            </a>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
 
-<!-- ================= RESULTS CONTAINER ================= -->
-<div class="results-container">
+    <!-- ================= RESULTS CONTAINER ================= -->
+    <main class="results-page-container">
 
-    <div class="results-header">
-        <div class="hero-badge">✨ AI ANALYSIS COMPLETE</div>
-        <h1>Resume Analysis Results</h1>
-        <p style="color: #6b7280;">Analysis completed for <strong>{{ filename }}</strong></p>
-    </div>
+        <!-- Top Header Banner -->
+        <div class="results-top-banner">
+            <div class="hero-badge">✨ AI EVALUATION COMPLETE</div>
+            <h1>Resume Analysis Results</h1>
+            <p>Full breakdown and career recommendations generated for <strong>{{ filename }}</strong></p>
+        </div>
 
-    <div class="results-grid">
+        <!-- 2-Column Grid -->
+        <div class="results-layout-grid">
 
-        <!-- SCORE CARD -->
-        <div class="card score-card">
-            <h2>Resume Score</h2>
-            <div class="score-display">
-                <div class="big-score-circle">
-                    <span class="big-score-num">{{ score }}</span>
-                    <span class="big-score-max">OUT OF 100</span>
-                </div>
-                <p style="color: #4b5563; font-weight: 500;">
+            <!-- SCORE CARD (LEFT COLUMN) -->
+            <div class="result-card">
+                <h2>🎯 Overall Resume Score</h2>
+                <div class="score-box-center">
+                    <div class="big-score-gauge">
+                        <span class="score-val">{{ score }}</span>
+                        <span class="score-denom">OUT OF 100</span>
+                    </div>
+
                     {% if score >= 80 %}
-                        🌟 Excellent Resume Profile!
+                        <div class="score-status-message" style="background:#ecfdf5; color:#065f46; border:1px solid #a7f3d0;">
+                            🌟 Excellent Resume Profile!
+                        </div>
                     {% elif score >= 60 %}
-                        👍 Good Profile - Minor areas to improve.
+                        <div class="score-status-message" style="background:#eff6ff; color:#1e40af; border:1px solid #bfdbfe;">
+                            👍 Good Profile — Minor polish recommended.
+                        </div>
                     {% else %}
-                        ⚠️ Needs Enhancement for better job matches.
+                        <div class="score-status-message" style="background:#fef2f2; color:#991b1b; border:1px solid #fecaca;">
+                            ⚠️ Needs Keyword & Formatting Enhancement.
+                        </div>
                     {% endif %}
-                </p>
-            </div>
-
-            <hr style="border: 0; border-top: 1px solid #f3f4f6; margin: 20px 0;">
-
-            <h4 style="margin-bottom: 10px; color: #374151;">Section Breakdown:</h4>
-            <div class="checklist-grid">
-                <div class="check-item {{ 'pass' if education else 'fail' }}">
-                    {{ '✓' if education else '✗' }} Education
                 </div>
-                <div class="check-item {{ 'pass' if experience else 'fail' }}">
-                    {{ '✓' if experience else '✗' }} Experience
-                </div>
-                <div class="check-item {{ 'pass' if projects else 'fail' }}">
-                    {{ '✓' if projects else '✗' }} Projects
-                </div>
-                <div class="check-item {{ 'pass' if certifications else 'fail' }}">
-                    {{ '✓' if certifications else '✗' }} Certificates
-                </div>
-            </div>
-        </div>
 
-        <!-- SKILLS & GAP CARD -->
-        <div>
-            <div class="card">
-                <h2>Detected Skills</h2>
-                <p style="color: #6b7280; font-size: 14px; margin-bottom: 15px;">
-                    Skills identified from your resume text:
-                </p>
-                {% if skills %}
-                    {% for skill in skills %}
-                        <span class="skill-tag detected">✦ {{ skill | capitalize }}</span>
-                    {% endfor %}
-                {% else %}
-                    <p style="color: #ef4444;">No standard tech skills detected in resume.</p>
-                {% endif %}
-            </div>
+                <hr style="border: 0; border-top: 1px solid #f1f5f9; margin: 20px 0;">
 
-            <div class="card">
-                <h2>Skill Gap Analysis</h2>
-                <p style="color: #6b7280; font-size: 14px; margin-bottom: 15px;">
-                    Comparison against top in-demand job requirements:
-                </p>
-
-                <h4 style="margin-bottom: 8px; color: #047857;">Skills You Have:</h4>
-                {% if matching_skills %}
-                    {% for skill in matching_skills %}
-                        <span class="skill-tag matched">✓ {{ skill | capitalize }}</span>
-                    {% endfor %}
-                {% else %}
-                    <p style="color: #6b7280; font-size: 14px;">None detected yet.</p>
-                {% endif %}
-
-                <h4 style="margin: 15px 0 8px; color: #b45309;">Recommended Skills to Add:</h4>
-                {% if missing_skills %}
-                    {% for skill in missing_skills %}
-                        <span class="skill-tag missing">+ {{ skill | capitalize }}</span>
-                    {% endfor %}
-                {% else %}
-                    <p style="color: #059669; font-size: 14px;">Great job! You have all targeted core skills.</p>
-                {% endif %}
-            </div>
-        </div>
-
-    </div>
-
-    <!-- RECOMMENDED JOBS -->
-    <div class="card">
-        <h2>Top Recommended Jobs</h2>
-        <p style="color: #6b7280; font-size: 14px; margin-bottom: 20px;">
-            Jobs matching your skills and experience:
-        </p>
-
-        {% if jobs %}
-            {% for job in jobs %}
-                <div class="job-card-styled">
-                    <div class="job-main">
-                        <h3>{{ job["job_title"] }}</h3>
-                        <div class="job-details">
-                            🏢 <strong>{{ job["company"] }}</strong> &nbsp;|&nbsp; 📍 {{ job["location"] }} &nbsp;|&nbsp; 💰 {{ job["salary"] }}
-                        </div>
-                        <div style="font-size: 13px; color: #4b5563;">
-                            <strong>Matched Skills:</strong> {{ job["matched_skills"] }}
-                        </div>
+                <h4 style="font-size: 13px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;">Profile Section Audit:</h4>
+                <div class="checklist-container">
+                    <div class="check-pill {{ 'pass' if education else 'fail' }}">
+                        <span>{{ '✓' if education else '✗' }}</span> Education
                     </div>
-
-                    <div class="job-actions">
-                        <span class="job-badge">{{ job["match_score"] }}% Match</span>
-
-                        <!-- Apply button -->
-                        <form method="post" action="{{ url_for('apply_job') }}" target="_blank">
-                          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                          <input type="hidden" name="job_title" value="{{ job['job_title'] }}">
-                          <input type="hidden" name="company" value="{{ job['company'] }}">
-                          <input type="hidden" name="apply_url" value="{{ job['apply_url'] if 'apply_url' in job else '' }}">
-                          <button type="submit" class="btn-apply">Apply</button>
-                        </form>
+                    <div class="check-pill {{ 'pass' if experience else 'fail' }}">
+                        <span>{{ '✓' if experience else '✗' }}</span> Experience
+                    </div>
+                    <div class="check-pill {{ 'pass' if projects else 'fail' }}">
+                        <span>{{ '✓' if projects else '✗' }}</span> Projects
+                    </div>
+                    <div class="check-pill {{ 'pass' if certifications else 'fail' }}">
+                        <span>{{ '✓' if certifications else '✗' }}</span> Certifications
                     </div>
                 </div>
-            {% endfor %}
-        {% else %}
-            <p style="color: #6b7280;">No job recommendations found.</p>
-        {% endif %}
-    </div>
+            </div>
 
-    <div class="back-btn-container">
-        <a href="/" class="primary-btn">← Analyze Another Resume</a>
-    </div>
+            <!-- SKILLS & GAPS (RIGHT COLUMN) -->
+            <div>
+                <!-- Detected Skills -->
+                <div class="result-card">
+                    <h2>✦ Detected Technical Skills</h2>
+                    <p style="color: #64748b; font-size: 14px; margin-bottom: 16px;">
+                        Skills successfully parsed and indexed from your resume content:
+                    </p>
+                    {% if skills %}
+                        <div class="skill-badge-group">
+                            {% for skill in skills %}
+                                <span class="skill-tag-pill tag-detected">✦ {{ skill | capitalize }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p style="color: #ef4444; font-size: 14px;">No standard technical skills detected in the document text.</p>
+                    {% endif %}
+                </div>
 
-</div>
+                <!-- Skill Gap Analysis -->
+                <div class="result-card">
+                    <h2>⚠️ Skill Gap Analysis</h2>
+                    <p style="color: #64748b; font-size: 14px; margin-bottom: 18px;">
+                        Benchmark against currently in-demand industry technologies:
+                    </p>
 
-<!-- ================= FOOTER ================= -->
-<footer>
-    <div class="footer-bottom">
-        © 2026 ResumeAI. AI Resume Analyzer & Job Recommendation System.
-    </div>
-</footer>
+                    <h4 style="font-size: 13px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+                        Core Skills You Match:
+                    </h4>
+                    {% if matching_skills %}
+                        <div class="skill-badge-group" style="margin-bottom: 22px;">
+                            {% for skill in matching_skills %}
+                                <span class="skill-tag-pill tag-matched">✓ {{ skill | capitalize }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p style="color: #64748b; font-size: 14px; margin-bottom: 20px;">None identified yet.</p>
+                    {% endif %}
+
+                    <h4 style="font-size: 13px; font-weight: 700; color: #d97706; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;">
+                        Recommended High-Impact Skills to Add:
+                    </h4>
+                    {% if missing_skills %}
+                        <div class="skill-badge-group">
+                            {% for skill in missing_skills %}
+                                <span class="skill-tag-pill tag-missing">+ {{ skill | capitalize }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p style="color: #059669; font-size: 14px; font-weight: 600;">🎉 Outstanding! Your profile covers all high-priority stack skills.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RECOMMENDED JOBS FULL-WIDTH CARD -->
+        <div class="result-card">
+            <h2>💼 Top Matched Career Opportunities</h2>
+            <p style="color: #64748b; font-size: 14px; margin-bottom: 24px;">
+                Roles curated based on your extracted technical skills and background:
+            </p>
+
+            {% if jobs %}
+                {% for job in jobs %}
+                    <div class="job-item-card">
+                        <div>
+                            <div class="job-title-text">{{ job["job_title"] }}</div>
+                            <div class="job-meta-line">
+                                <span>🏢 <strong>{{ job["company"] }}</strong></span>
+                                <span>📍 {{ job["location"] }}</span>
+                                <span>💰 {{ job["salary"] }}</span>
+                            </div>
+                            <div class="job-matched-skills-line">
+                                <strong>Matched Skills:</strong> {{ job["matched_skills"] }}
+                            </div>
+                        </div>
+
+                        <div class="job-right-actions">
+                            <span class="match-badge-pill">{{ job["match_score"] }}% Match</span>
+
+                            <!-- Apply button -->
+                            <form method="post" action="{{ url_for('apply_job') }}" target="_blank" style="margin: 0;">
+                              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                              <input type="hidden" name="job_title" value="{{ job['job_title'] }}">
+                              <input type="hidden" name="company" value="{{ job['company'] }}">
+                              <input type="hidden" name="apply_url" value="{{ job['apply_url'] if 'apply_url' in job else '' }}">
+                              <button type="submit" class="btn-apply-job">Apply on LinkedIn ↗</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p style="color: #64748b; padding: 20px 0;">No job recommendations generated for this profile.</p>
+            {% endif %}
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="{{ url_for('home') }}#analyze" class="primary-btn">
+                <span>✦</span> Analyze Another Resume
+            </a>
+        </div>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="footer-bottom">
+            © 2026 ResumeAI. AI Resume Analyzer & Job Recommendation System.
+        </div>
+    </footer>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
+
 </html>

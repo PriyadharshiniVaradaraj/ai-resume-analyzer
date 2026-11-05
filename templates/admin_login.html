@@ -4,23 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | AI Resume Analyzer</title>
+    <title>Admin Login | ResumeAI</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='auth.css') }}">
 </head>
 
 <body>
+    <a href="{{ url_for('home') }}" class="back-home-link" style="left: 24px; right: auto;">← Back to Home</a>
+    <a href="{{ url_for('auth.login') }}" class="admin-link">User Login</a>
+
     <div class="auth-card">
         <!-- Branding -->
         <div class="auth-logo">
             <div class="auth-logo-icon">🛡️</div>
-            <span class="auth-logo-text">AI Resume Analyzer</span>
+            <span class="auth-logo-text">Resume<span>AI</span></span>
         </div>
 
-        <h1>Admin login</h1>
-        <p class="subtitle">Authorised personnel only</p>
+        <h1>Admin Portal</h1>
+        <p class="subtitle">Secure administrative control panel</p>
 
         <!-- Restricted access badge -->
-        <div class="restricted-badge">🔒 Restricted access — admin only</div>
+        <div style="text-align: center;">
+            <div class="restricted-badge">🔒 Restricted — Admins Only</div>
+        </div>
 
         <!-- Flash messages -->
         {% for message in get_flashed_messages(with_categories=true) %}
@@ -40,14 +45,15 @@
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <div class="field">
-                <label for="email">Admin email</label>
-                <input type="email" id="email" name="email"
+                <label for="email">Admin Email</label>
+                <input type="email" id="email" name="email" placeholder="admin@resumeai.com"
                        autocomplete="email" required autofocus>
             </div>
 
             <div class="field">
-                <label for="password">Password</label>
+                <label for="password">Admin Password</label>
                 <input type="password" id="password" name="password"
+                       placeholder="••••••••••••"
                        autocomplete="current-password" required>
                 <button type="button" class="toggle-pw" onclick="togglePw('password', this)"
                         aria-label="Toggle password visibility">👁</button>
@@ -55,7 +61,7 @@
 
             <button type="submit" class="btn" id="submitBtn">
                 <span class="btn-spinner"></span>
-                <span class="btn-label">Login as admin</span>
+                <span class="btn-label">Access Admin Dashboard →</span>
             </button>
         </form>
     </div>
