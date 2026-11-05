@@ -1,6 +1,6 @@
 /* ============================================================
    ResumeAI — auth.css
-   Modern Glassmorphism & Aurora Gradient for Auth Pages
+   Modern Glassmorphism & Aurora Glow for Auth Pages
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -17,42 +17,44 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15), transparent 40%),
-              radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.15), transparent 40%),
-              linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+  background: 
+    radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.18), transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(168, 85, 247, 0.18), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent 50%),
+    linear-gradient(135deg, #090d16 0%, #0f172a 50%, #1e1b4b 100%);
   padding: 24px;
   position: relative;
   overflow-x: hidden;
   color: #0f172a;
 }
 
-/* Subtle background glowing orbs */
+/* Floating background glow orbs */
 body::before, body::after {
   content: "";
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(90px);
   pointer-events: none;
   z-index: 0;
 }
 
 body::before {
-  width: 450px;
-  height: 450px;
-  background: rgba(99, 102, 241, 0.25);
-  top: -100px;
-  left: -100px;
+  width: 500px;
+  height: 500px;
+  background: rgba(99, 102, 241, 0.22);
+  top: -120px;
+  left: -120px;
 }
 
 body::after {
-  width: 400px;
-  height: 400px;
+  width: 450px;
+  height: 450px;
   background: rgba(168, 85, 247, 0.2);
-  bottom: -100px;
-  right: -100px;
+  bottom: -120px;
+  right: -120px;
 }
 
-/* Top-right Navigation Pill (e.g. Admin Login link) */
+/* Navigation Link Pills */
 .admin-link, .back-home-link {
   position: fixed;
   top: 24px;
@@ -61,75 +63,77 @@ body::after {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 9px 18px;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 9999px;
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 13.5px;
+  font-weight: 700;
   text-decoration: none;
-  transition: all 0.25s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 .admin-link:hover, .back-home-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.35);
   transform: translateY(-2px);
   color: #ffffff;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.35);
 }
 
-/* Auth Card */
+/* Auth Glassmorphism Card */
 .auth-card {
   background: rgba(255, 255, 255, 0.98);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   width: 100%;
-  max-width: 440px;
-  padding: 44px 38px;
-  border-radius: 28px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35),
-              0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  max-width: 450px;
+  padding: 48px 42px;
+  border-radius: 30px;
+  box-shadow: 
+    0 25px 60px -10px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.8) inset;
   position: relative;
   z-index: 10;
-  animation: cardFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: cardEntrance 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes cardFadeIn {
-  from { opacity: 0; transform: translateY(24px) scale(0.98); }
+@keyframes cardEntrance {
+  from { opacity: 0; transform: translateY(28px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* Branding Logo Area */
+/* Branding Logo */
 .auth-logo {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 22px;
+  margin-bottom: 24px;
 }
 
 .auth-logo-icon {
-  width: 48px;
-  height: 48px;
-  background: linear-gradient(135deg, #4f46e5, #7c3aed);
-  border-radius: 14px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
+  font-size: 24px;
   color: #ffffff;
-  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.35);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.4);
 }
 
 .auth-logo-text {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   color: #0f172a;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.6px;
 }
 
 .auth-logo-text span {
@@ -139,10 +143,10 @@ body::after {
 /* Headings */
 .auth-card h1 {
   color: #0f172a;
-  font-size: 26px;
+  font-size: 27px;
   font-weight: 800;
   text-align: center;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.6px;
   margin-bottom: 6px;
 }
 
@@ -151,7 +155,7 @@ body::after {
   font-size: 14.5px;
   text-align: center;
   margin-bottom: 28px;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 /* Restricted Badge for Admin */
@@ -165,17 +169,17 @@ body::after {
   padding: 6px 14px;
   border-radius: 9999px;
   font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  margin: 0 auto 20px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  margin-bottom: 22px;
   text-transform: uppercase;
 }
 
 /* Flash Messages */
 .flash {
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 20px;
+  border-radius: 14px;
+  padding: 13px 18px;
+  margin-bottom: 22px;
   font-size: 13.5px;
   font-weight: 600;
   display: flex;
@@ -185,7 +189,7 @@ body::after {
 }
 
 @keyframes flashIn {
-  from { opacity: 0; transform: translateY(-6px); }
+  from { opacity: 0; transform: translateY(-8px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -225,7 +229,7 @@ body::after {
 
 /* Form Fields */
 .field {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   position: relative;
   text-align: left;
 }
@@ -240,21 +244,21 @@ body::after {
 
 .field input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 15px 18px;
   border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
+  border-radius: 14px;
   font-family: inherit;
   font-size: 14.5px;
   color: #0f172a;
   background: #f8fafc;
   outline: none;
-  transition: all 0.2s ease;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .field input:focus {
   background: #ffffff;
   border-color: #6366f1;
-  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.16);
 }
 
 .field input::placeholder {
@@ -264,8 +268,8 @@ body::after {
 /* Password Toggle Icon */
 .toggle-pw {
   position: absolute;
-  right: 12px;
-  bottom: 12px;
+  right: 14px;
+  bottom: 14px;
   background: transparent;
   border: none;
   font-size: 18px;
@@ -273,7 +277,7 @@ body::after {
   color: #64748b;
   padding: 4px;
   line-height: 1;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: color 0.15s ease, background 0.15s ease;
 }
 
@@ -282,45 +286,20 @@ body::after {
   background: #eef2ff;
 }
 
-/* Password Strength Bar */
-.pw-strength-bar {
-  height: 4px;
-  width: 100%;
-  background: #e2e8f0;
-  border-radius: 2px;
-  margin-top: 8px;
-  overflow: hidden;
-  display: none;
-}
-
-.pw-strength-fill {
-  height: 100%;
-  width: 0%;
-  border-radius: 2px;
-  transition: width 0.3s ease, background-color 0.3s ease;
-}
-
-.pw-strength-hint {
-  font-size: 12px;
-  color: #64748b;
-  margin-top: 6px;
-  display: none;
-}
-
 /* Submit Button */
 .btn {
   width: 100%;
-  padding: 15px 24px;
+  padding: 16px 26px;
   background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
   color: #ffffff;
   border: none;
-  border-radius: 12px;
+  border-radius: 14px;
   font-family: inherit;
-  font-size: 15px;
+  font-size: 15.5px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.25s ease;
-  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 10px 28px rgba(79, 70, 229, 0.38);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -330,7 +309,7 @@ body::after {
 
 .btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.45);
+  box-shadow: 0 14px 34px rgba(79, 70, 229, 0.48);
   background: linear-gradient(135deg, #4338ca 0%, #4f46e5 100%);
 }
 
@@ -363,7 +342,7 @@ body::after {
 
 /* Bottom Switch Link */
 .switch {
-  margin-top: 26px;
+  margin-top: 28px;
   text-align: center;
   font-size: 14px;
   color: #64748b;
@@ -381,17 +360,16 @@ body::after {
   text-decoration: underline;
 }
 
-/* Responsive adjustments */
 @media (max-width: 480px) {
   .auth-card {
-    padding: 34px 24px;
-    border-radius: 22px;
+    padding: 36px 26px;
+    border-radius: 24px;
   }
 
   .admin-link, .back-home-link {
     top: 16px;
     right: 16px;
     font-size: 12px;
-    padding: 7px 14px;
+    padding: 8px 16px;
   }
 }
